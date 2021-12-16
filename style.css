@@ -25,11 +25,13 @@ em {
 
 .card {
     border: 1px solid rgb(236, 236, 236);
+    border-radius: 10px;
     padding: 1em;
 }
 
 .card h1 {
-    font-size: 1.25rem;
+    font-size: 1em;
+    margin: 0 0 1em 0;
 }
 
 .links {
