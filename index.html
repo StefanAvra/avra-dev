@@ -8,6 +8,55 @@
     <title>Stefan Avramescu</title>
   </head>
   <body>
+    <div class="bg-container">
+      <svg viewBox="0 0 900 600" width="900" height="600" class="bg-svg">
+        <g>
+          <circle
+            class="blob blob-1"
+            cx="888"
+            cy="34"
+            fill="currentColor"
+            r="357"
+          ></circle>
+          <circle
+            class="blob blob-2"
+            cx="679"
+            cy="224"
+            fill="currentColor"
+            r="357"
+          ></circle>
+          <circle
+            class="blob blob-3"
+            cx="184"
+            cy="461"
+            fill="currentColor"
+            r="357"
+          ></circle>
+          <circle
+            class="blob blob-4"
+            cx="336"
+            cy="591"
+            fill="currentColor"
+            r="357"
+          ></circle>
+          <circle
+            class="blob blob-5"
+            cx="194"
+            cy="204"
+            fill="currentColor"
+            r="357"
+          ></circle>
+          <circle
+            class="blob blob-6"
+            cx="390"
+            cy="358"
+            fill="currentColor"
+            r="357"
+          ></circle>
+        </g>
+      </svg>
+    </div>
+
     <main>
       <div class="card">
         <h1>Stefan Avramescu</h1>
@@ -64,5 +113,25 @@
         </div>
       </div>
     </main>
+    <script>
+      (() => {
+        const maxWidth = 900;
+        const maxHeight = 600;
+
+        const blobs = document.querySelectorAll(".blob");
+        blobs.forEach((b) => {
+          b.attributes.cx.value = Math.floor(Math.random() * 900);
+          b.attributes.cy.value = Math.floor(Math.random() * 600);
+        });
+
+        const isSafari = /^((?!chrome|android).)*safari/i.test(
+          navigator.userAgent
+        );
+
+        if (!isSafari) {
+          document.documentElement.classList.add("not-safari");
+        }
+      })();
+    </script>
   </body>
 </html>
