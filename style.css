@@ -29,7 +29,6 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.25rem;
 }
 
 a {
@@ -91,50 +90,20 @@ em {
   animation: rotate-hue 120s infinite forwards, move 100s infinite alternate;
 }
 
-@keyframes move {
-  from {
-    rotate: 0deg;
-    scale: 10%;
-  }
-
-  to {
-    rotate: 100deg;
-    scale: 50%;
-  }
-}
-
-@keyframes rotate-hue {
-  0% {
-    color: light-dark(hsl(0, 0%, 100%), hsl(0, 0%, 0%));
-  }
-
-  33% {
-    color: light-dark(hsl(277, 100%, 41%), hsl(283, 100%, 50%));
-  }
-
-  66% {
-    color: light-dark(hsl(181, 100%, 41%), hsl(165, 100%, 50%));
-  }
-
-  100% {
-    color: light-dark(hsl(0, 0%, 100%), hsl(0, 0%, 0%));
-  }
-}
-
 .card {
+  margin: 4px;
   border: 1px solid var(--border-color);
-  border-radius: 10px;
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
   background-color: var(--card-color);
-  border-radius: 12px;
+  border-radius: 1em;
   padding: 1em;
   transform: var(--card-transform);
   mix-blend-mode: normal;
 }
 
 .card h1 {
-  font-size: 1em;
+  font-size: 1.25em;
   margin: 0 0 1em 0;
 }
 
@@ -175,8 +144,27 @@ em {
   width: max-content;
 }
 
-.tooltip:hover .tooltip-text {
+.tooltip:hover .tooltip-text,
+.tooltip:focus .tooltip-text {
   visibility: visible;
+}
+
+.text-smaller {
+  font-size: smaller;
+}
+
+p:has(.caution):hover .caution,
+p:has(.caution):focus .caution {
+  background: repeating-linear-gradient(
+    45deg,
+    yellow,
+    yellow 20px,
+    black 20px,
+    black 40px
+  );
+  background-clip: text;
+  color: transparent;
+  animation: caution 1s linear infinite forwards;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -188,5 +176,49 @@ em {
   }
   .card {
     mix-blend-mode: hard-light;
+  }
+}
+
+@keyframes caution {
+  0% {
+    background-position-x: 0;
+  }
+
+  100% {
+    background-position-x: 58px;
+  }
+}
+
+@keyframes move {
+  0% {
+    rotate: 0deg;
+    scale: 0%;
+  }
+
+  2% {
+    scale: 20%;
+  }
+
+  100% {
+    rotate: 100deg;
+    scale: 50%;
+  }
+}
+
+@keyframes rotate-hue {
+  0% {
+    color: light-dark(hsl(0, 0%, 100%), hsl(0, 0%, 0%));
+  }
+
+  33% {
+    color: light-dark(hsl(277, 100%, 41%), hsl(283, 100%, 50%));
+  }
+
+  66% {
+    color: light-dark(hsl(181, 100%, 41%), hsl(165, 100%, 50%));
+  }
+
+  100% {
+    color: light-dark(hsl(0, 0%, 100%), hsl(0, 0%, 0%));
   }
 }
