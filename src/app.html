@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Stefan Avramescu</title>
+		<script>
+			(function() {
+				var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+				if (!isSafari) document.documentElement.classList.add('not-safari');
+			})();
+		</script>
+		%sveltekit.head%
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">%sveltekit.body%</div>
+	</body>
+</html>
