@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -67,8 +67,8 @@
         </p>
         <p class="text-smaller" tabindex="0">
           This site is currently
-          <span class="caution">under construction</span>. Bookmark it for
-          later!
+          <span class="caution">under construction</span>. Rewriting it in
+          Sveltekit. Bookmark it for later!
         </p>
         <div class="links">
           <div
@@ -140,7 +140,7 @@
         });
 
         const isSafari = /^((?!chrome|android).)*safari/i.test(
-          navigator.userAgent
+          navigator.userAgent,
         );
 
         if (!isSafari) {
