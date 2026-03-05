@@ -6,12 +6,13 @@
 
 <main>
 	<Card>
-		<h1>Stefan Avramescu</h1>
+		<h1>Stefan <span class="hover:font-bold">Avra</span>mescu</h1>
 		<p>
 			Hi. I'm a full stack engineer from Germany.
 			<br />
-			I'm also known as <em>Avra</em>.
+			Welcome to my personal site. A place to experiment, share notes and projects.  
 		</p>
+
 		<div class="links">
 			<EmailTooltip />
 

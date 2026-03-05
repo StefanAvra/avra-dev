@@ -5,3 +5,6 @@
 <div class="card">
 	{@render children()}
 </div>
+
+<style>
+</style>

@@ -8,7 +8,7 @@
 <main>
 	<div class="card">
 		<h1>{data.title}</h1>
-		<p class="text-smaller">{data.date}</p>
+		<p class="font-thin">{data.date}</p>
 		<Content />
 	</div>
 </main>

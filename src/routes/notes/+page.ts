@@ -17,9 +17,9 @@ export function load() {
 		const slug = path.split('/').at(-1)!.replace('.md', '');
 		return {
 			slug,
-			title: mod.metadata.title,
-			date: mod.metadata.date,
-			description: mod.metadata.description
+			title: mod.metadata?.title,
+			date: mod.metadata?.date,
+			description: mod.metadata?.description
 		};
 	});
 
