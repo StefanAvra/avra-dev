@@ -3,25 +3,19 @@
 	import EmailTooltip from '$lib/components/EmailTooltip.svelte';
 </script>
 
-
 <main>
 	<Card>
 		<h1>Stefan <span class="hover:font-bold">Avra</span>mescu</h1>
 		<p>
 			Hi. I'm a full stack engineer from Germany.
 			<br />
-			Welcome to my personal site. A place to experiment, share notes and projects.  
+			Welcome to my personal site. A place to experiment, share notes and projects.
 		</p>
 
 		<div class="links">
 			<EmailTooltip />
 
-			<a
-				href="https://github.com/stefanavra"
-				target="_blank"
-				rel="noopener"
-				aria-label="Github"
-			>
+			<a href="https://github.com/stefanavra" target="_blank" rel="noopener" aria-label="Github">
 				<svg
 					aria-hidden="true"
 					focusable="false"
