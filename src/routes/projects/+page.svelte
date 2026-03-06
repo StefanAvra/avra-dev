@@ -8,8 +8,11 @@
 	<hr />
 	<ul>
 		<li>
-			<a href="https://github.com/stefanavra" target="_blank" rel="noopener">[stefanavra.dev]</a>
-			<p class="fg-muted">This personal site — built with SvelteKit.</p>
+			<p class="fg-muted">This list is not yet populated.</p>
+		</li>
+		<li>
+			<a href="https://avra.dev" target="_blank" rel="noopener">[avra.dev]</a>
+			<p class="fg-muted">This personal site. Built with SvelteKit.</p>
 		</li>
 	</ul>
 </main>
