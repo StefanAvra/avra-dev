@@ -1,26 +1,48 @@
 <script lang="ts">
-	import { resolve } from "$app/paths";
+	import { resolve } from '$app/paths';
+	import { scramble } from '$lib/actions/scramble';
 
 	let { data } = $props();
 </script>
 
-<main>
-	<div class="card">
-		<h1>Notes</h1>
-		<ul>
-			{#each data.posts as post (post.slug)}
-				<li class="mb-4">
-					<a href={resolve(`/notes/${post.slug}`)} >
-						<span class="font-bold">
-							{post.title}
-						</span>
-						<span class="font-light"> — {new Date(post.date).toISOString().slice(0, 10)}</span>
-						{#if post.description}
-							<p class="">{post.description}</p>
-						{/if}
-					</a>
-				</li>
-			{/each}
-		</ul>
-	</div>
+<main use:scramble>
+	<p class="fg-muted">~/notes</p>
+	<h1>Notes</h1>
+	<hr />
+	<ul>
+		{#each data.posts as post (post.slug)}
+			<li>
+				<a href={resolve(`/notes/${post.slug}`)}>
+					<span>{post.title}</span>
+					<span class="fg-muted">{new Date(post.date).toISOString().slice(0, 10)}</span>
+				</a>
+				{#if post.description}
+					<p class="fg-muted">{post.description}</p>
+				{/if}
+			</li>
+		{/each}
+	</ul>
 </main>
+
+<style>
+	hr {
+		border: none;
+		border-top: 1px solid var(--border);
+		margin: 1lh 0;
+	}
+
+	ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 1lh;
+	}
+
+	li a {
+		display: flex;
+		gap: 2ch;
+		text-decoration: none;
+	}
+</style>

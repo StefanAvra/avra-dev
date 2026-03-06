@@ -2,7 +2,6 @@
 	import { onNavigate } from '$app/navigation';
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
-	import BlobBackground from '$lib/components/BlobBackground.svelte';
 	import { scrambleAllOut } from '$lib/actions/scramble';
 	import '../app.css';
 
@@ -14,10 +13,6 @@
 			return;
 		}
 
-		// return new Promise((resolve) => {document.startViewTransition(async () => {
-		// 	resolve();
-		// 	await navigation.complete
-		// })})
 		return new Promise((resolve) => {
 			scrambleAllOut().then(() => {
 				document.startViewTransition(async () => {
@@ -45,20 +40,22 @@
 	}
 </script>
 
-<BlobBackground />
-
-<nav class="flex justify-center gap-8 p-4">
-	<a
-		href={resolve('/')}
-		class="aria-[current=page]:font-bold"
-		aria-current={page.url.pathname === '/' ? 'page' : undefined}>home</a
-	>
-	<a
-		href={resolve('/notes')}
-		class="aria-[current=page]:font-bold"
-		aria-current={page.url.pathname.startsWith('/notes') ? 'page' : undefined}>notes</a
-	>
-	<button onclick={toggleTheme} aria-label="Toggle theme">{isDark ? '☀' : '☼'}</button>
+<nav>
+	<div class="nav-links">
+		<a
+			href={resolve('/')}
+			aria-current={page.url.pathname === '/' ? 'page' : undefined}>[home]</a
+		>
+		<a
+			href={resolve('/notes')}
+			aria-current={page.url.pathname.startsWith('/notes') ? 'page' : undefined}>[notes]</a
+		>
+		<a
+			href={resolve('/projects')}
+			aria-current={page.url.pathname.startsWith('/projects') ? 'page' : undefined}>[projects]</a
+		>
+	</div>
+	<button onclick={toggleTheme}>{isDark ? '[light]' : '[dark]'}</button>
 </nav>
 
 {@render children()}
@@ -66,11 +63,38 @@
 <style>
 	nav {
 		view-transition-name: nav;
+		border-bottom: 1px solid var(--border);
+		padding: 1lh 2ch;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		max-width: 80ch;
+		margin: 0 auto;
 	}
-	nav > a[aria-current='page']::before {
+
+	.nav-links {
+		display: flex;
+		gap: 2ch;
+	}
+
+	nav a {
+		text-decoration: none;
+		position: relative;
+	}
+
+	nav a[aria-current='page']::before {
 		content: '>';
 		position: absolute;
 		translate: -1ch 0;
 		view-transition-name: active-page-indicator;
+	}
+
+	button {
+		background: none;
+		border: none;
+		padding: 0;
+		font-family: inherit;
+		font-size: inherit;
+		color: var(--fg);
 	}
 </style>
