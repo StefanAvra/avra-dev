@@ -1,13 +1,13 @@
 <script lang="ts">
 	import type { Component } from 'svelte';
-	import { scramble } from '$lib/actions/scramble';
+	import Breadcrumb from '$lib/components/Breadcrumb.svelte';
 
 	let { data } = $props();
 	let Content = $derived(data.content as unknown as Component);
 </script>
 
-<main use:scramble>
-	<p class="fg-muted">~/notes/{data.slug}</p>
+<main>
+	<Breadcrumb path={`~/notes/${data.slug}`} />
 	<h1>{data.title}</h1>
 	<p class="fg-muted">{data.date}</p>
 	<hr />

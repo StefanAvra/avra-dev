@@ -1,24 +1,20 @@
 <script lang="ts">
 	import { onNavigate } from '$app/navigation';
-	import { scrambleAllOut } from '$lib/actions/scramble';
+	import { snapshotScramble } from '$lib/actions/scramble';
 	import '../app.css';
 	import Nav from './Nav.svelte';
 
 	let { children } = $props();
 
 	onNavigate((navigation) => {
-		if (!document.startViewTransition) {
-			scrambleAllOut().then(() => navigation.complete);
-			return;
-		}
+		snapshotScramble();
+
+		if (!document.startViewTransition) return;
 
 		return new Promise((resolve) => {
-			scrambleAllOut().then(() => {
-				document.startViewTransition(async () => {
-					resolve();
-					await navigation.complete;
-					window.dispatchEvent(new CustomEvent('scramble'));
-				});
+			document.startViewTransition(async () => {
+				resolve();
+				await navigation.complete;
 			});
 		});
 	});

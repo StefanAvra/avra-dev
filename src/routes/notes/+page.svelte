@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import { scramble } from '$lib/actions/scramble';
+	import Breadcrumb from '$lib/components/Breadcrumb.svelte';
 
 	let { data } = $props();
 </script>
 
-<main use:scramble>
-	<p class="fg-muted">~/notes</p>
+<main>
+	<Breadcrumb path="~/notes" />
 	<h1>Notes</h1>
 	<hr />
 	<ul>

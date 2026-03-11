@@ -1,10 +1,10 @@
 <script lang="ts">
 	import EmailTooltip from '$lib/components/EmailTooltip.svelte';
-	import { scramble } from '$lib/actions/scramble';
+	import Breadcrumb from '$lib/components/Breadcrumb.svelte';
 </script>
 
-<main use:scramble>
-	<p class="fg-muted">~</p>
+<main>
+	<Breadcrumb path="~" />
 	<h1>Stefan Avramescu</h1>
 	<p>
 		Hi. I'm a full stack engineer from Germany.

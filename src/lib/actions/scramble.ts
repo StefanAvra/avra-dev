@@ -1,8 +1,7 @@
-const charset = '!<>-_\\/[]{}=+*^?#~@$%&|`';
+const charset = '!<>-_\\/[]{}=+*^?#~@$%&|`qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM';
 
-type ScrambleController = { out: () => Promise<void> };
-const registry = new Set<ScrambleController>();
 let prevSnapshot = '';
+let activeNode: HTMLElement | null = null;
 
 function flattenText(node: HTMLElement): string {
 	const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT);
@@ -14,12 +13,11 @@ function flattenText(node: HTMLElement): string {
 	return result;
 }
 
-function animate(
-	node: HTMLElement,
-	duration: number,
-	direction: 'in' | 'out',
-	prevText?: string
-): Promise<void> {
+function randomChar() {
+	return charset[Math.floor(Math.random() * charset.length)];
+}
+
+function animate(node: HTMLElement, duration: number, prevText?: string): Promise<void> {
 	return new Promise((resolve) => {
 		const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT);
 		const textNodes: { node: Text; original: string }[] = [];
@@ -29,39 +27,43 @@ function animate(
 			textNodes.push({ node: t, original: t.textContent ?? '' });
 		}
 
-		const full = textNodes.map((t) => t.original).join('');
+		const newText = textNodes.map((t) => t.original).join('');
+		const prevLen = prevText?.length ?? 0;
+		const maxLen = Math.max(newText.length, prevLen);
 		const start = performance.now();
 
 		function frame(now: number) {
 			const progress = Math.min((now - start) / duration, 1);
-			const threshold = Math.floor(progress * full.length);
+			const threshold = Math.floor(progress * maxLen);
 
-			const scrambled = [...full]
-				.map((char, i) => {
-					if (char === ' ' || char === '\n') return char;
-					if (direction === 'in' && prevText && prevText[i] === char) return char;
-					if (direction === 'in') {
-						const revealed = i < threshold;
-						if (revealed) return char;
-						// Before reveal: show old char if available, otherwise scramble
-						if (prevText && i < prevText.length) {
-							const old = prevText[i];
-							return old === ' ' || old === '\n'
-								? old
-								: charset[Math.floor(Math.random() * charset.length)];
-						}
-						return charset[Math.floor(Math.random() * charset.length)];
+			let result = '';
+			for (let i = 0; i < maxLen; i++) {
+				const newChar = i < newText.length ? newText[i] : null;
+				const oldChar = prevText && i < prevLen ? prevText[i] : null;
+
+				if (i < threshold) {
+					result += newChar ?? '';
+				} else {
+					if (newChar !== null) {
+						if (newChar === ' ' || newChar === '\n') result += newChar;
+						else if (oldChar === newChar) result += newChar;
+						else result += randomChar();
+					} else {
+						if (oldChar === ' ' || oldChar === '\n') result += oldChar;
+						else result += randomChar();
 					}
-					// out direction
-					const revealed = i >= threshold;
-					return revealed ? char : charset[Math.floor(Math.random() * charset.length)];
-				})
-				.join('');
+				}
+			}
 
 			let offset = 0;
-			for (const { node: textNode, original } of textNodes) {
-				textNode.textContent = scrambled.slice(offset, offset + original.length);
-				offset += original.length;
+			for (let t = 0; t < textNodes.length; t++) {
+				const orig = textNodes[t].original;
+				if (t === textNodes.length - 1) {
+					textNodes[t].node.textContent = result.slice(offset);
+				} else {
+					textNodes[t].node.textContent = result.slice(offset, offset + orig.length);
+					offset += orig.length;
+				}
 			}
 
 			if (progress < 1) requestAnimationFrame(frame);
@@ -73,22 +75,24 @@ function animate(
 			}
 		}
 
-		// When we have prevText, seed text nodes with old content immediately
-		// so stable characters are visible from the very start (no flash)
-		if (direction === 'in' && prevText) {
-			let offset = 0;
-			for (const { node: textNode, original } of textNodes) {
-				let seeded = '';
-				for (let i = 0; i < original.length; i++) {
-					const gi = offset + i;
-					if (gi < prevText.length) {
-						seeded += prevText[gi];
+		if (prevText) {
+			let seeded = '';
+			for (let i = 0; i < maxLen; i++) {
+				if (i < prevLen) seeded += prevText[i];
+				else seeded += randomChar();
+			}
+			if (textNodes.length > 0) {
+				const last = textNodes.length - 1;
+				let offset = 0;
+				for (let t = 0; t < textNodes.length; t++) {
+					const orig = textNodes[t].original;
+					if (t === last) {
+						textNodes[t].node.textContent = seeded.slice(offset);
 					} else {
-						seeded += charset[Math.floor(Math.random() * charset.length)];
+						textNodes[t].node.textContent = seeded.slice(offset, offset + orig.length);
+						offset += orig.length;
 					}
 				}
-				textNode.textContent = seeded;
-				offset += original.length;
 			}
 		}
 
@@ -99,24 +103,19 @@ function animate(
 export function scramble(node: HTMLElement, duration = 300) {
 	const savedPrev = prevSnapshot;
 	prevSnapshot = '';
+	activeNode = node;
 
-	const controller: ScrambleController = {
-		out: () => {
-			prevSnapshot = flattenText(node);
-			return animate(node, duration * 0.6, 'out');
-		}
-	};
-
-	registry.add(controller);
-	animate(node, duration, 'in', savedPrev || undefined);
+	animate(node, duration, savedPrev || undefined);
 
 	return {
 		destroy() {
-			registry.delete(controller);
+			activeNode = null;
 		}
 	};
 }
 
-export function scrambleAllOut(): Promise<void[]> {
-	return Promise.all([...registry].map((c) => c.out()));
+export function snapshotScramble() {
+	if (activeNode) {
+		prevSnapshot = flattenText(activeNode);
+	}
 }

@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { scramble } from '$lib/actions/scramble';
+	import Breadcrumb from '$lib/components/Breadcrumb.svelte';
 </script>
 
-<main use:scramble>
-	<p class="fg-muted">~/projects</p>
+<main>
+	<Breadcrumb path="~/projects" />
 	<h1>Projects</h1>
 	<hr />
 	<ul>
