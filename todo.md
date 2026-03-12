@@ -1,4 +1,1 @@
-- [ ] consolidate CSS to tailwind
-- [ ] styles: use character width for gaps, paddings, margins for a more "terminal-like" look
-- [ ] view-transitions, animations
 - [ ] keyboard shortcuts

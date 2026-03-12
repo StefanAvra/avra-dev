@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onNavigate } from '$app/navigation';
 	import { snapshotScramble } from '$lib/actions/scramble';
+	import Breadcrumb from '$lib/components/Breadcrumb.svelte';
 	import '../app.css';
 	import Nav from './Nav.svelte';
 
@@ -35,6 +36,13 @@
 	}
 </script>
 
-<Nav {toggleTheme} {isDark} />
+<svelte:head>
+	<title>Stefan Avramescu</title>
+</svelte:head>
 
-{@render children()}
+<Nav {toggleTheme} {isDark} />
+<main
+	class="mx-auto flex min-h-screen max-w-[80ch] flex-col justify-center px-[2ch] pt-[calc(var(--spacing-header)+1lh)] pb-[2lh]"
+>
+	{@render children()}
+</main>

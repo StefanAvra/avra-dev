@@ -1,4 +1,4 @@
-const charset = '!<>-_\\/[]{}=+*^?#~@$%&|`qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM';
+const charset = '!<>-_\\/[]{}=+*^?#~@$%&|`qwertyuiopasdfghjklzxcvbnm';
 
 let prevSnapshot = '';
 let activeNode: HTMLElement | null = null;
@@ -100,7 +100,8 @@ function animate(node: HTMLElement, duration: number, prevText?: string): Promis
 	});
 }
 
-export function scramble(node: HTMLElement, duration = 300) {
+export function scramble(node: HTMLElement) {
+	const duration = 300;
 	const savedPrev = prevSnapshot;
 	prevSnapshot = '';
 	activeNode = node;

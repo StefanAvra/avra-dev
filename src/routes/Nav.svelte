@@ -1,62 +1,38 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
+	import Breadcrumb from '$lib/components/Breadcrumb.svelte';
 
 	const { toggleTheme, isDark }: { toggleTheme: () => void; isDark: boolean } = $props();
 </script>
 
-<nav>
-	<div class="nav-links">
-		<a href={resolve('/')} aria-current={page.url.pathname === '/' ? 'page' : undefined}>[home]</a>
+<nav
+	class="fixed inset-x-0 z-10 flex h-header items-center justify-between border-b border-border bg-bg px-[2ch] [view-transition-name:nav]"
+>
+	<div class="flex gap-[2ch]">
 		<a
-			href={resolve('/notes')}
-			aria-current={page.url.pathname.startsWith('/notes') ? 'page' : undefined}>[notes]</a
+			class="bracketed relative no-underline"
+			href={resolve('/')}
+			aria-current={page.url.pathname === '/' ? 'page' : undefined}>home</a
 		>
-		<!-- 
+		<a
+			class="bracketed relative no-underline"
+			href={resolve('/notes')}
+			aria-current={page.url.pathname.startsWith('/notes') ? 'page' : undefined}>notes</a
+		>
+		<!--
     this not yet available
     <a
+			class="bracketed relative no-underline"
 			href={resolve('/projects')}
-			aria-current={page.url.pathname.startsWith('/projects') ? 'page' : undefined}>[projects]</a
+			aria-current={page.url.pathname.startsWith('/projects') ? 'page' : undefined}>projects</a
 		> -->
 	</div>
-	<button onclick={toggleTheme}>{isDark ? '[light]' : '[dark]'}</button>
+	<button
+		class="bracketed cursor-pointer border-0 bg-transparent p-0 text-fg [font:inherit]"
+		onclick={toggleTheme}>{isDark ? 'light' : 'dark'}</button
+	>
+	<div class="absolute bottom-0 translate-y-1/2 bg-bg px-[1ch]">
+		<Breadcrumb />
+	</div>
 </nav>
-
-<style>
-	nav {
-		view-transition-name: nav;
-		border-bottom: 1px solid var(--border);
-		padding: 1lh 2ch;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		max-width: 80ch;
-		margin: 0 auto;
-	}
-
-	.nav-links {
-		display: flex;
-		gap: 2ch;
-	}
-
-	nav a {
-		text-decoration: none;
-		position: relative;
-	}
-
-	nav a[aria-current='page']::before {
-		content: '>';
-		position: absolute;
-		translate: -1ch 0;
-		view-transition-name: active-page-indicator;
-	}
-
-	button {
-		background: none;
-		border: none;
-		padding: 0;
-		font-family: inherit;
-		font-size: inherit;
-		color: var(--fg);
-	}
-</style>

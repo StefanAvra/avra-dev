@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { scramble } from '$lib/actions/scramble';
-
-	let { path }: { path: string } = $props();
+	import { page } from '$app/state';
 </script>
 
-<p class="fg-muted" use:scramble>{path}</p>
+{#key page.url.pathname}
+	<span class="text-sm text-muted" use:scramble>~{page.url.pathname}</span>
+{/key}
