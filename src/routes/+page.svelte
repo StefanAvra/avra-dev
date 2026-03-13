@@ -17,10 +17,10 @@
 		target="_blank"
 		rel="noopener">github</a
 	>
-	<a
+	<!-- <a
 		class="bracketed no-underline"
 		href="https://www.codewars.com/users/avra"
 		target="_blank"
 		rel="noopener noreferrer">codewars</a
-	>
+	> -->
 </div>

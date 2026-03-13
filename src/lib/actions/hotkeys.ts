@@ -3,6 +3,9 @@ import { resolve } from '$app/paths';
 import { writable } from 'svelte/store';
 
 export const showHelp = writable(false);
+export const keyboardActive = writable(false);
+
+let keyboardTimer: ReturnType<typeof setTimeout>;
 
 function isEditable(target: EventTarget | null): boolean {
 	if (!(target instanceof HTMLElement)) return false;
@@ -17,6 +20,10 @@ export function handleHotkey(event: KeyboardEvent, toggleTheme: () => void) {
 	if (isEditable(event.target)) return;
 
 	const key = event.key;
+
+	clearTimeout(keyboardTimer);
+	keyboardActive.set(true);
+	keyboardTimer = setTimeout(() => keyboardActive.set(false), 3000);
 
 	switch (key) {
 		case 'h':

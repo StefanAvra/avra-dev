@@ -13,7 +13,7 @@
 		onkeydown={(e) => e.key === 'Escape' && close()}
 		onclick={close}
 	>
-		<!-- svelte-ignore a11y_no_static_element_interactions -->
+		<!-- svelte-ignore a11y_click_events_have_key_events -->
 		<div
 			class="w-full max-w-[50ch] animate-reveal-in-center border border-border bg-subtle p-[2ch]"
 			onclick={(e) => e.stopPropagation()}
@@ -32,7 +32,7 @@
 					<tr><td class="py-0.5 text-accent">?</td><td>Toggle this help</td></tr>
 				</tbody>
 			</table>
-			<p class="mt-[1lh] mb-0 text-xs text-muted">Hotkeys are disabled while typing in inputs.</p>
+			<!-- <p class="mt-[1lh] mb-0 text-xs text-muted">Hotkeys are disabled while typing in inputs.</p> -->
 		</div>
 	</div>
 {/if}
