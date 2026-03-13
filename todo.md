@@ -1,1 +1,2 @@
 - [ ] keyboard shortcuts
+- [ ] add a little globe, display the timezone

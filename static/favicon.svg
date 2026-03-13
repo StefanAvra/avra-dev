@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+	<style>
+		text {
+			font-family: 'Geist Mono', ui-monospace, monospace;
+			font-size: 82px;
+			dominant-baseline: central;
+			text-anchor: middle;
+		}
+		.symbol { fill: #ff6f00; }
+		rect { fill: #fff}
+		@media (prefers-color-scheme: dark) {
+			.symbol { fill: #33cc66; }
+			rect { fill: #000}
+		}
+	</style>
+	<rect width="100" height="100" rx="50" ry="50" />
+	<text class="symbol" x="50" y="46">✼</text>
+</svg>
+

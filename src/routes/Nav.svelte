@@ -7,7 +7,7 @@
 </script>
 
 <nav
-	class="fixed inset-x-0 z-10 flex h-header items-center justify-between border-b border-border bg-bg px-[2ch] [view-transition-name:nav]"
+	class="fixed inset-x-0 z-10 flex h-header items-center justify-between border-b border-border bg-bg px-[2ch] [view-transition-name:nav] sm:px-8"
 >
 	<div class="flex gap-[2ch]">
 		<a
