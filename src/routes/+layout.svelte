@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { onNavigate } from '$app/navigation';
+	import { handleHotkey } from '$lib/actions/hotkeys';
 	import { snapshotScramble } from '$lib/actions/scramble';
+	import HotkeyBar from '$lib/components/HotkeyBar.svelte';
+	import HotkeyHelp from '$lib/components/HotkeyHelp.svelte';
 	import '../app.css';
 	import Nav from './Nav.svelte';
 
@@ -39,9 +42,13 @@
 	<title>Stefan Avramescu</title>
 </svelte:head>
 
+<svelte:window onkeydown={(e) => handleHotkey(e, toggleTheme)} />
+
 <Nav {toggleTheme} {isDark} />
 <main
 	class="mx-auto flex min-h-screen max-w-[80ch] flex-col justify-center bg-bg px-[2ch] pt-[calc(var(--spacing-header)+1lh)] pb-[2lh] sm:px-8"
 >
 	{@render children()}
 </main>
+<HotkeyBar />
+<HotkeyHelp />

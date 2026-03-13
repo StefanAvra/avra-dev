@@ -7,7 +7,11 @@
 
 <ul class="m-0 flex list-none flex-col p-0">
 	{#each data.posts as post, index (post.slug)}
-		<li class="animate-fade-in-up text-muted opacity-0" style="animation-delay: {index * 40}ms">
+		<li
+			class="animate-fade-in-up text-muted opacity-0"
+			data-hotkey-item
+			style="animation-delay: {index * 40}ms"
+		>
 			<a
 				class="group relative flex justify-between gap-[2ch] py-[0.5lh] transition hover:text-fg"
 				href={resolve(`/notes/${post.slug}`)}
@@ -33,6 +37,10 @@
 		translate: 0 -50%;
 		opacity: 0%;
 	}
+	:global(li[data-hotkey-active]) a {
+		color: var(--color-fg);
+	}
+	:global(li[data-hotkey-active])::before,
 	li:hover::before {
 		color: var(--color-accent);
 		opacity: 100%;

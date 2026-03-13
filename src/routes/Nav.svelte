@@ -32,7 +32,7 @@
 		class="bracketed cursor-pointer border-0 bg-transparent p-0 text-fg [font:inherit]"
 		onclick={toggleTheme}>{isDark ? 'light' : 'dark'}</button
 	>
-	<div class="absolute bottom-0 translate-y-1/2 bg-bg px-[1ch]">
+	<div class="absolute bottom-0 translate-y-1/2 bg-bg px-[1ch] leading-1">
 		<Breadcrumb />
 	</div>
 </nav>

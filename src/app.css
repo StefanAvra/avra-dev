@@ -18,6 +18,8 @@
 	--color-accent: light-dark(#ff6f00, #33cc66);
 	--color-border: light-dark(#bbbbbb, #333333);
 	--animate-fade-in-up: fade-in-up 0.6s cubic-bezier(0.15, 1, 0.3, 0.99) forwards;
+	--animate-reveal-in-center: reveal-in-center 0.2s linear forwards;
+
 	--spacing-header: 3lh;
 }
 
@@ -65,5 +67,14 @@ code:not(pre > code) {
 	100% {
 		opacity: 1;
 		translate: 0;
+	}
+}
+
+@keyframes reveal-in-center {
+	from {
+		clip-path: inset(50% 0);
+	}
+	to {
+		clip-path: inset(0 0);
 	}
 }
