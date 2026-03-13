@@ -6,6 +6,9 @@ const config = {
 	extensions: ['.svelte', '.md'],
 	preprocess: [mdsvex({ extensions: ['.md'] })],
 	kit: {
+		paths: {
+			base: process.argv.includes('dev') ? '' : '/avra-dev'
+		},
 		adapter: adapter({
 			pages: 'build',
 			assets: 'build',
