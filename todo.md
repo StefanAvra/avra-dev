@@ -1,2 +1,5 @@
-- [ ] keyboard shortcuts
-- [ ] add a little globe, display the timezone
+- add a little globe, display the timezone
+- rss
+- opg tags
+- lighthouse
+- markdown styles

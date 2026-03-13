@@ -4,7 +4,6 @@
 </script>
 
 <h1>Notes</h1>
-
 <ul class="m-0 flex list-none flex-col p-0">
 	{#each data.posts as post, index (post.slug)}
 		<li
@@ -32,7 +31,11 @@
 	li::before {
 		content: '❋';
 		position: absolute;
-		right: calc(100% + 1ch);
+		right: calc(100% + 0.5ch);
+
+		@media (min-width: 640px) {
+			right: calc(100% + 1ch);
+		}
 		top: 50%;
 		translate: 0 -50%;
 		opacity: 0%;

@@ -46,7 +46,7 @@
 
 <Nav {toggleTheme} {isDark} />
 <main
-	class="mx-auto flex min-h-screen max-w-[80ch] flex-col justify-center bg-bg px-[2ch] pt-[calc(var(--spacing-header)+1lh)] pb-[2lh] sm:px-8"
+	class="mx-auto flex min-h-svh max-w-[80ch] flex-col justify-center bg-bg px-[2ch] pt-[calc(var(--spacing-header)+1lh)] pb-[2lh] sm:px-8"
 >
 	{@render children()}
 </main>
