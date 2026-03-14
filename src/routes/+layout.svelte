@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onNavigate } from '$app/navigation';
-	import { handleHotkey } from '$lib/actions/hotkeys';
+	import { playSecretSound } from '$lib/actions/beepboop';
+	import { handleHotkey, konamiTriggered } from '$lib/actions/hotkeys';
 	import { snapshotScramble } from '$lib/actions/scramble';
 	import HotkeyBar from '$lib/components/HotkeyBar.svelte';
 	import HotkeyHelp from '$lib/components/HotkeyHelp.svelte';
@@ -36,6 +37,13 @@
 		document.documentElement.dataset.theme = theme;
 		localStorage.setItem('theme', theme);
 	}
+
+	$effect(() => {
+		if ($konamiTriggered) {
+			playSecretSound();
+			konamiTriggered.set(false);
+		}
+	});
 </script>
 
 <svelte:head>

@@ -4,6 +4,8 @@ import { writable } from 'svelte/store';
 
 export const showHelp = writable(false);
 export const keyboardActive = writable(false);
+export const keyBuffer = writable<string[]>([]);
+export const konamiTriggered = writable(false);
 
 let keyboardTimer: ReturnType<typeof setTimeout>;
 
@@ -24,6 +26,15 @@ export function handleHotkey(event: KeyboardEvent, toggleTheme: () => void) {
 	clearTimeout(keyboardTimer);
 	keyboardActive.set(true);
 	keyboardTimer = setTimeout(() => keyboardActive.set(false), 3000);
+
+	keyBuffer.update((keys) => {
+		const updated = [...keys, key].slice(-128);
+		const KONAMI = 'ArrowUpArrowUpArrowDownArrowDownArrowLeftArrowRightArrowLeftArrowRightba';
+		if (updated.join('').endsWith(KONAMI)) {
+			konamiTriggered.set(true);
+		}
+		return updated;
+	});
 
 	switch (key) {
 		case 'h':

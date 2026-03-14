@@ -6,7 +6,7 @@
 </script>
 
 <div
-	class="fixed inset-x-0 bottom-0 z-10 hidden items-center justify-center gap-[3ch] border-t border-border bg-bg px-[2ch] py-1 text-sm text-muted opacity-0 transition-opacity hover:opacity-100 data-[keyboard-active]:opacity-100 sm:flex"
+	class="fixed inset-x-0 bottom-0 z-10 hidden items-center justify-center gap-[3ch] border-t border-border bg-bg px-[2ch] py-1 text-sm text-muted opacity-0 transition-opacity hover:opacity-100 data-keyboard-active:opacity-100 sm:flex"
 	data-keyboard-active={$keyboardActive || undefined}
 >
 	<span
