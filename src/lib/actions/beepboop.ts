@@ -30,7 +30,7 @@ export function playSecretSound() {
 		osc.frequency.setValueAtTime(freq, t);
 		osc.connect(gainNode);
 
-		gainNode.gain.setValueAtTime(0.3, t);
+		gainNode.gain.setValueAtTime(0.25, t);
 		gainNode.gain.exponentialRampToValueAtTime(0.001, t + dur - 0.01);
 
 		osc.start(t);

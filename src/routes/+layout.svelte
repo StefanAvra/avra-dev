@@ -5,6 +5,7 @@
 	import { snapshotScramble } from '$lib/actions/scramble';
 	import HotkeyBar from '$lib/components/HotkeyBar.svelte';
 	import HotkeyHelp from '$lib/components/HotkeyHelp.svelte';
+	import SecretBackground from '$lib/components/SecretBackground.svelte';
 	import '../app.css';
 	import Nav from './Nav.svelte';
 
@@ -23,6 +24,7 @@
 		});
 	});
 
+	let secretActive = $state(false);
 	let isDark = $state(false);
 
 	$effect(() => {
@@ -41,6 +43,7 @@
 	$effect(() => {
 		if ($konamiTriggered) {
 			playSecretSound();
+			secretActive = true;
 			konamiTriggered.set(false);
 		}
 	});
@@ -58,5 +61,10 @@
 >
 	{@render children()}
 </main>
+{#if secretActive}
+	<div class="mix-blend-color-burn">
+		<SecretBackground ondone={() => (secretActive = false)} />
+	</div>
+{/if}
 <HotkeyBar />
 <HotkeyHelp />
