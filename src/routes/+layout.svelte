@@ -30,6 +30,7 @@
 	$effect(() => {
 		const stored = localStorage.getItem('theme');
 		isDark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+		document.documentElement.classList.toggle('dark', isDark);
 	});
 
 	function toggleTheme() {
@@ -37,6 +38,7 @@
 		const theme = isDark ? 'dark' : 'light';
 		document.documentElement.style.colorScheme = theme;
 		document.documentElement.dataset.theme = theme;
+		document.documentElement.classList.toggle('dark', isDark);
 		localStorage.setItem('theme', theme);
 	}
 
@@ -62,7 +64,7 @@
 	{@render children()}
 </main>
 {#if secretActive}
-	<div class="mix-blend-color-burn">
+	<div class="mix-blend-darken dark:mix-blend-lighten">
 		<SecretBackground ondone={() => (secretActive = false)} />
 	</div>
 {/if}
