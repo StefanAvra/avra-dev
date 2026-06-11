@@ -5,7 +5,7 @@
 	import { snapshotScramble } from '$lib/actions/scramble';
 	import HotkeyBar from '$lib/components/HotkeyBar.svelte';
 	import HotkeyHelp from '$lib/components/HotkeyHelp.svelte';
-	import SecretBackground from '$lib/components/SecretBackground.svelte';
+	import Background from '$lib/components/Background.svelte';
 	import '../app.css';
 	import Nav from './Nav.svelte';
 
@@ -63,10 +63,8 @@
 >
 	{@render children()}
 </main>
-{#if secretActive}
-	<div class="mix-blend-darken dark:mix-blend-lighten">
-		<SecretBackground ondone={() => (secretActive = false)} />
-	</div>
-{/if}
+<div class="mix-blend-darken dark:mix-blend-lighten">
+	<Background secret={secretActive} ondone={() => (secretActive = false)} />
+</div>
 <HotkeyBar />
 <HotkeyHelp />
