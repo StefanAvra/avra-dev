@@ -107,9 +107,14 @@
 		// Stamp every cell the pointer passed over since the last frame.
 		function traceMovement() {
 			if (mouseX === null || mouseY === null) return;
+			// Start of a fresh stroke (pointer just went down / re-entered):
+			// stamp the contact point itself instead of interpolating a line
+			// from wherever the pointer was last seen.
 			if (prevX === null || prevY === null) {
 				prevX = mouseX;
 				prevY = mouseY;
+				stamp(mouseX, mouseY);
+				return;
 			}
 
 			const dx = mouseX - prevX;
@@ -198,9 +203,34 @@
 </script>
 
 <svelte:window
+	onpointerdown={(e) => {
+		// Begin a fresh stroke at the contact point. Clearing prev means a new
+		// touch never draws a connecting line from the previous touch's spot.
+		mouseX = e.clientX;
+		mouseY = e.clientY;
+		prevX = null;
+		prevY = null;
+	}}
 	onpointermove={(e) => {
 		mouseX = e.clientX;
 		mouseY = e.clientY;
+	}}
+	onpointerup={(e) => {
+		// Touch/pen leave the surface on release — stop tracking so the trail
+		// ends at the lift point rather than being dragged to the next tap.
+		// A mouse stays present, so keep following it.
+		if (e.pointerType !== 'mouse') {
+			mouseX = null;
+			mouseY = null;
+			prevX = null;
+			prevY = null;
+		}
+	}}
+	onpointercancel={() => {
+		mouseX = null;
+		mouseY = null;
+		prevX = null;
+		prevY = null;
 	}}
 	onpointerleave={() => {
 		mouseX = null;
