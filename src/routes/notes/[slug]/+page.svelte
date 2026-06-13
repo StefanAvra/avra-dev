@@ -1,14 +1,18 @@
 <script lang="ts">
 	import type { Component } from 'svelte';
+	import { onMount } from 'svelte';
 	let { data } = $props();
 	let Content = $derived(data.content as unknown as Component);
-</script>
 
-<svelte:head>
-	{#if data.atproto_uri}
-		<link rel="site.standard.document" href={data.atproto_uri} />
-	{/if}
-</svelte:head>
+	onMount(() => {
+		if (data.atproto_uri) {
+			const link = document.createElement('link');
+			link.rel = 'site.standard.document';
+			link.href = data.atproto_uri;
+			document.head.appendChild(link);
+		}
+	});
+</script>
 
 <h1 class="">{data.title}</h1>
 <p class="m-0 mb-[1lh] text-sm text-muted">{data.date.slice(0, 10)}</p>
