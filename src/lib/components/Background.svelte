@@ -203,36 +203,46 @@
 </script>
 
 <svelte:window
-	onpointerdown={(e) => {
-		// Begin a fresh stroke at the contact point. Clearing prev means a new
-		// touch never draws a connecting line from the previous touch's spot.
-		mouseX = e.clientX;
-		mouseY = e.clientY;
-		prevX = null;
-		prevY = null;
-	}}
 	onpointermove={(e) => {
+		// Touch is handled via touch events below. A scrolling touch gets
+		// pointercancel'd and stops firing pointermove, so we can't rely on it.
+		if (e.pointerType === 'touch') return;
 		mouseX = e.clientX;
 		mouseY = e.clientY;
 	}}
-	onpointerup={(e) => {
-		// Touch/pen leave the surface on release — stop tracking so the trail
-		// ends at the lift point rather than being dragged to the next tap.
-		// A mouse stays present, so keep following it.
-		if (e.pointerType !== 'mouse') {
-			mouseX = null;
-			mouseY = null;
-			prevX = null;
-			prevY = null;
-		}
-	}}
-	onpointercancel={() => {
+	onpointerleave={(e) => {
+		if (e.pointerType === 'touch') return;
 		mouseX = null;
 		mouseY = null;
 		prevX = null;
 		prevY = null;
 	}}
-	onpointerleave={() => {
+	ontouchstart={(e) => {
+		// Begin a fresh stroke at the contact point. Clearing prev means a new
+		// touch never draws a connecting line from the previous touch's spot.
+		const t = e.touches[0];
+		if (!t) return;
+		mouseX = t.clientX;
+		mouseY = t.clientY;
+		prevX = null;
+		prevY = null;
+	}}
+	ontouchmove={(e) => {
+		// touchmove keeps firing for the whole drag — even while the page
+		// scrolls — unlike pointermove, so the trail follows the finger.
+		// We don't preventDefault, so normal scrolling is preserved.
+		const t = e.touches[0];
+		if (!t) return;
+		mouseX = t.clientX;
+		mouseY = t.clientY;
+	}}
+	ontouchend={() => {
+		mouseX = null;
+		mouseY = null;
+		prevX = null;
+		prevY = null;
+	}}
+	ontouchcancel={() => {
 		mouseX = null;
 		mouseY = null;
 		prevX = null;
