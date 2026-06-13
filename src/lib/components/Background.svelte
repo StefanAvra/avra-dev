@@ -1,7 +1,11 @@
 <script lang="ts">
 	import { createNoise3D } from '$lib/noise';
 
-	const BLOCKS = ['█', '▓', '▒'];
+	// idx 0/1/2 map to full / dark-shade / medium-shade — coverage of the dither.
+	const SHADE_COVERAGE = [1, 0.75, 0.5];
+	// 4x4 ordered (Bayer) dither, values 0..15.
+	const BAYER = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
+	const DOT = 1.5; // dither cell size in CSS px (scaled by dpr for crisp dots)
 	const FONT_SIZE = 16;
 	const RING_WIDTH = 80;
 	const SPEED = 600;
@@ -44,12 +48,15 @@
 		let w = 0;
 		let h = 0;
 		let charWidth = 0;
+		let rowHeight = 0;
 		let cols = 0;
 		let rows = 0;
 		let cx = 0;
 		let cy = 0;
 		let maxRadius = 0;
 		let color = '';
+		// Pre-rendered dither tiles for the three shades, baked in the accent color.
+		let sprites: HTMLCanvasElement[] = [];
 		// Per-cell trace intensity (0..1); the noise field shows through it.
 		let intensity = new Float32Array(0);
 
@@ -65,34 +72,66 @@
 
 			ctx.setTransform(1, 0, 0, 1, 0, 0);
 			ctx.scale(dpr, dpr);
-			ctx.font = `${FONT_SIZE}px monospace`;
-			ctx.textBaseline = 'top';
+			ctx.font = `${FONT_SIZE}px 'Geist Mono Variable', monospace`;
+			ctx.imageSmoothingEnabled = false;
 			color = getComputedStyle(colorProbe).color;
 
-			charWidth = ctx.measureText('█').width;
+			// We draw the shades ourselves now, so size cells deterministically from
+			// the font's advance and the classic monospace cell aspect. Integer cells
+			// tile seamlessly on every device (no glyph-metric variance, no overlap).
+			charWidth = Math.max(1, Math.round(ctx.measureText('M').width || FONT_SIZE * 0.6));
+			rowHeight = Math.max(1, Math.round(charWidth / 0.6));
 			cols = Math.ceil(w / charWidth) + 1;
-			rows = Math.ceil(h / FONT_SIZE) + 1;
+			rows = Math.ceil(h / rowHeight) + 1;
 			intensity = new Float32Array(cols * rows);
+			buildSprites();
 
 			cx = w / 2;
 			cy = h / 2;
 			maxRadius = Math.sqrt(Math.max(cx, w - cx) ** 2 + Math.max(cy, h - cy) ** 2) + RING_WIDTH;
 		}
 
+		// Pre-render each shade once to an offscreen tile (device-res, accent color).
+		// Full coverage -> solid block; 0.75/0.5 -> the dark/medium halftone of ▓/▒.
+		function buildSprites() {
+			const cw = Math.max(1, Math.round(charWidth * dpr));
+			const ch = Math.max(1, Math.round(rowHeight * dpr));
+			const dot = Math.max(1, Math.round(DOT * dpr));
+			sprites = SHADE_COVERAGE.map((cov) => {
+				const off = document.createElement('canvas');
+				off.width = cw;
+				off.height = ch;
+				const o = off.getContext('2d')!;
+				o.fillStyle = color;
+				const thresh = cov * 16;
+				for (let y = 0, ry = 0; y < ch; y += dot, ry++) {
+					for (let x = 0, rx = 0; x < cw; x += dot, rx++) {
+						if (BAYER[(ry % 4) * 4 + (rx % 4)] < thresh) o.fillRect(x, y, dot, dot);
+					}
+				}
+				return off;
+			});
+		}
+
 		resize();
 		window.addEventListener('resize', resize);
+
+		// The webfont (and the fallback that supplies the block glyphs) may not be
+		// ready at first paint, especially on mobile. Re-measure once it loads so
+		// the grid pitch matches what's actually drawn.
+		document.fonts?.load(`${FONT_SIZE}px 'Geist Mono Variable'`).then(resize).catch(() => {});
 
 		// Add trace intensity in a soft disc, brightest at its center.
 		function stamp(originX: number, originY: number) {
 			const minC = Math.max(0, Math.floor((originX - HOVER_RADIUS) / charWidth));
 			const maxC = Math.min(cols, Math.ceil((originX + HOVER_RADIUS) / charWidth));
-			const minR = Math.max(0, Math.floor((originY - HOVER_RADIUS) / FONT_SIZE));
-			const maxR = Math.min(rows, Math.ceil((originY + HOVER_RADIUS) / FONT_SIZE));
+			const minR = Math.max(0, Math.floor((originY - HOVER_RADIUS) / rowHeight));
+			const maxR = Math.min(rows, Math.ceil((originY + HOVER_RADIUS) / rowHeight));
 
 			for (let r = minR; r < maxR; r++) {
 				for (let c = minC; c < maxC; c++) {
 					const px = c * charWidth + charWidth / 2;
-					const py = r * FONT_SIZE + FONT_SIZE / 2;
+					const py = r * rowHeight + rowHeight / 2;
 					const dist = Math.sqrt((px - originX) ** 2 + (py - originY) ** 2);
 
 					if (dist < HOVER_RADIUS) {
@@ -144,7 +183,7 @@
 					const brightness = noise3D(c * NOISE_SCALE, r * NOISE_SCALE, tz) * 0.5 + 0.5;
 					const idx = brightness > 0.66 ? 0 : brightness > 0.33 ? 1 : 2;
 					ctx.globalAlpha = Math.min(1, v) * (0.08 + 0.32 * brightness);
-					ctx.fillText(BLOCKS[idx], c * charWidth, r * FONT_SIZE);
+					ctx.drawImage(sprites[idx], c * charWidth, r * rowHeight, charWidth+(1/dpr), rowHeight+(1/dpr) ); // overlapping to make a thin grid
 				}
 			}
 			ctx.globalAlpha = 1;
@@ -155,14 +194,14 @@
 			for (let r = 0; r < rows; r++) {
 				for (let c = 0; c < cols; c++) {
 					const px = c * charWidth + charWidth / 2;
-					const py = r * FONT_SIZE + FONT_SIZE / 2;
+					const py = r * rowHeight + rowHeight / 2;
 					const dist = Math.sqrt((px - cx) ** 2 + (py - cy) ** 2);
 					const delta = Math.abs(dist - radius);
 
 					if (delta < RING_WIDTH) {
 						const normalized = delta / RING_WIDTH;
 						const idx = normalized < 0.33 ? 0 : normalized < 0.66 ? 1 : 2;
-						ctx.fillText(BLOCKS[idx], c * charWidth, r * FONT_SIZE);
+						ctx.drawImage(sprites[idx], c * charWidth, r * rowHeight, charWidth, rowHeight);
 					}
 				}
 			}
@@ -172,7 +211,6 @@
 
 		function frame(t: number) {
 			ctx.clearRect(0, 0, w * dpr, h * dpr);
-			ctx.fillStyle = color;
 
 			traceMovement();
 			renderTrace(t);
