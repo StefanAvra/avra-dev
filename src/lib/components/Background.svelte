@@ -8,8 +8,8 @@
 	const HOVER_RADIUS = 100;
 
 	// How fast the revealed trace fades when the pointer stops (per frame).
-	const TRACE_DECAY = 0.97;
-	const STAMP_STRENGTH = 0.1;
+	const TRACE_DECAY = 0.95;
+	const STAMP_STRENGTH = 0.045;
 	// Animated brightness field sampled per grid cell.
 	const NOISE_SCALE = 0.26;
 	const NOISE_SPEED = 0.00012;
@@ -138,7 +138,7 @@
 
 					const brightness = noise3D(c * NOISE_SCALE, r * NOISE_SCALE, tz) * 0.5 + 0.5;
 					const idx = brightness > 0.66 ? 0 : brightness > 0.33 ? 1 : 2;
-					ctx.globalAlpha = Math.min(1, v) * (0.25 + 0.75 * brightness);
+					ctx.globalAlpha = Math.min(1, v) * (0.08 + 0.32 * brightness);
 					ctx.fillText(BLOCKS[idx], c * charWidth, r * FONT_SIZE);
 				}
 			}

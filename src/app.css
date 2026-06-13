@@ -19,6 +19,14 @@
 	--color-subtle: light-dark(#e8e8e3, #141414);
 	--color-accent: light-dark(#ff6f00, #33cc66);
 	--color-border: light-dark(#bbbbbb, #333333);
+
+	/* markdown palette — light-dark(onPaleBg, onBlackBg), ~AA on each bg */
+	--color-green: light-dark(#1a7f37, #33cc66);
+	--color-orange: light-dark(#b45309, #ff8a3d);
+	--color-pink: light-dark(#c0257a, #ff6fb3);
+	--color-blue: light-dark(#1d6fd4, #4ea3ff);
+	--color-yellow: light-dark(#8a6d00, #e3b341);
+	--color-red: light-dark(#c1331f, #ff6b5e);
 	--animate-fade-in-up: fade-in-up 0.6s cubic-bezier(0.15, 1, 0.3, 0.99) forwards;
 	--animate-reveal-in-center: reveal-in-center 0.2s linear forwards;
 
