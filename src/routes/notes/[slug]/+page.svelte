@@ -4,6 +4,12 @@
 	let Content = $derived(data.content as unknown as Component);
 </script>
 
+<svelte:head>
+	{#if data.atproto_uri}
+		<link rel="site.standard.document" href={data.atproto_uri} />
+	{/if}
+</svelte:head>
+
 <h1 class="">{data.title}</h1>
 <p class="m-0 mb-[1lh] text-sm text-muted">{data.date.slice(0, 10)}</p>
 <hr class="my-[1lh] border-t border-none border-border" />
