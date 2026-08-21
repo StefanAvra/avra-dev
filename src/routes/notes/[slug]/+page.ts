@@ -14,7 +14,13 @@ export const load: PageLoad = async ({ params }) => {
 	const path = `../../../lib/posts/${params.slug}.md`;
 	const mod = (await modules[path]()) as {
 		default: unknown;
-		metadata: { title: string; date: string; description: string; atproto_uri?: string };
+		metadata: {
+			title: string;
+			date: string;
+			description: string;
+			atproto_uri?: string;
+			bsky_thread_uri?: string;
+		};
 	};
 	return {
 		content: mod.default,
@@ -22,6 +28,7 @@ export const load: PageLoad = async ({ params }) => {
 		date: mod.metadata.date,
 		description: mod.metadata.description,
 		atproto_uri: mod.metadata.atproto_uri,
+		bsky_thread_uri: mod.metadata.bsky_thread_uri,
 		slug: params.slug
 	};
 };

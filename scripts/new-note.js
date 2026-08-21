@@ -29,6 +29,7 @@ const content = `---
 title: ${title}
 date: ${date}
 description:
+tags: []
 ---
 
 `;

@@ -4,36 +4,31 @@
 - lighthouse
 - markdown styles
 
-## atproto comments (Bluesky-as-comments pattern)
+## atproto comments (Bluesky-as-comments pattern) — DONE
 
-Goal: people reply on Bluesky; article pages load those replies client-side as comments.
-Depends on: Model A document-mirroring already shipped (see `scripts/publish-atproto.js`,
-which already logs into the PDS and upserts `site.standard.document` records per post).
+Shipped: `--announce` on `publish-note` creates one `app.bsky.feed.post` per note
+(idempotent via `bsky_thread_uri` in frontmatter), and `Comments.svelte` loads its
+replies client-side from the public AppView.
 
-### Step 1 — Anchor post (extend the publish script)
+Two things the original plan had wrong, for future reference:
 
-- When publishing a post, also create one `app.bsky.feed.post` that links to the article
-  (`agent.post({ text, embed: external link card to https://avra.dev/notes/<slug> })`).
-- Make it idempotent: store the created post's AT-URI in the post frontmatter
-  (e.g. `bsky_thread_uri`) so re-publishing reuses it instead of creating duplicates.
-  (Mirror the `atproto_uri` write-back pattern already in `publish-atproto.js`.)
-- Also set the document record's `bskyPostRef` field to that AT-URI — standard.site's
-  first-class field for the discussion thread — and re-`putRecord`.
+- `site.standard.document.bskyPostRef` is a **strongRef (`{uri, cid}`)**, not a bare
+  at-URI. The cid has to live in frontmatter too (`bsky_thread_cid`), because
+  `putRecord` replaces the whole record — every later publish re-supplies it or drops it.
+- `app.bsky.embed.external` gained `associatedRefs` (May 2026): strongRefs to the
+  backing `site.standard.*` records. Bluesky hydrates them into an enhanced card —
+  confirmed live, the view now returns `readingTime` / `source` / `associatedProfiles`.
 
-### Step 2 — Comments UI (pure frontend, no backend, no auth)
+Also worth remembering: repo reads (`getRecord`, `listRecords`) must go to
+`https://eurosky.social`, not `public.api.bsky.app` — the appview mirror of
+`site.standard.*` records lags and returned stale nulls. `getPostThread` is fine on
+the public AppView.
 
-- New component `src/lib/components/Comments.svelte`.
-- On mount, fetch the thread (public, unauthenticated — no app password in the browser):
-  `GET https://public.api.bsky.app/xrpc/app.bsky.feed.getPostThread?uri=<bsky_thread_uri>`
-- Walk `thread.replies` recursively; render author handle/avatar, text, timestamp,
-  likeCount/replyCount. Svelte escapes user text by default — keep it that way.
-- Surface `bsky_thread_uri` through `notes/[slug]/+page.ts` (same as `atproto_uri` today),
-  render `<Comments>` in `notes/[slug]/+page.svelte` below the article, only when present.
-  Progressive enhancement: static page ships as today, comments hydrate after load.
-- "Leave a comment" = a link to the anchor post on bsky.app so people can reply in-app.
+Remaining:
 
-### Caveats
-
-- Only people with atproto accounts can comment.
-- Deleting the anchor Bluesky post deletes the comments.
-- Consider filtering replies from accounts you've muted/blocked.
+- render tags on the site — chips on the note page and `/notes`, plus a prerendered
+  `/notes/tag/[tag]` route. The data already exists in frontmatter (`tags:`) and is
+  mirrored to `site.standard.document.tags`; only the UI is missing.
+- `svelte.config.js` sets `paths.base = '/avra-dev'` for non-dev builds, so deployed
+  nav links point at `/avra-dev/notes/...` and 404 — `avra.dev` serves from the apex.
+- filter replies from muted/blocked accounts (needs auth, so probably never).
