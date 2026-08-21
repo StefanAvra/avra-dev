@@ -12,8 +12,8 @@
 	const HOVER_RADIUS = 100;
 
 	// How fast the revealed trace fades when the pointer stops (per frame).
-	const TRACE_DECAY = 0.95;
-	const STAMP_STRENGTH = 0.045;
+	const TRACE_DECAY = 0.98;
+	const STAMP_STRENGTH = 0.005;
 	// Animated brightness field sampled per grid cell.
 	const NOISE_SCALE = 0.26;
 	const NOISE_SPEED = 0.00012;
