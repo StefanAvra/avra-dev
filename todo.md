@@ -34,6 +34,7 @@ Still text-only, to sweep once the convention feels right: nav brackets, `Hotkey
 
 ## remaining
 
+- skeleton for comment section
 - render tags on the site — chips on the note page and `/notes`, plus a prerendered
   `/notes/tag/[tag]` route. The data already exists in frontmatter (`tags:`) and is
   mirrored to `site.standard.document.tags`; only the UI is missing.
