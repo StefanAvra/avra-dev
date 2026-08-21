@@ -7,14 +7,18 @@
 		sortByCreatedAt,
 		type ThreadViewPost
 	} from '$lib/bsky';
+	import PostStats from './PostStats.svelte';
 
-	let { reply }: { reply: ThreadViewPost } = $props();
+	let { reply, index }: { reply: ThreadViewPost; index: number } = $props();
 
 	const author = $derived(reply.post.author);
 	const nested = $derived(sortByCreatedAt((reply.replies ?? []).filter(isThreadViewPost)));
 </script>
 
-<article class="mb-[1lh]">
+<article class="mb-[1lh] animate-fade-in-up opacity-0"
+			style="animation-delay: {index * 40}ms"
+
+>
 	<div class="mb-[0.25lh] flex items-baseline gap-[1ch] text-sm">
 		{#if author.avatar}
 			<img
@@ -46,14 +50,14 @@
 		<p class="m-0 text-sm text-muted italic">(no text)</p>
 	{/if}
 
-	{#if reply.post.likeCount}
-		<p class="m-0 text-sm text-muted">&hearts; {reply.post.likeCount}</p>
-	{/if}
+	<div class="my-[1lh]">
+		<PostStats post={reply.post} />
+	</div>
 
 	{#if nested.length}
 		<div class="mt-[0.5lh] border-l border-dashed border-border pl-[2ch]">
-			{#each nested as child (child.post.uri)}
-				<Self reply={child} />
+			{#each nested as child, idx (child.post.uri)}
+				<Self reply={child} index={idx} />
 			{/each}
 		</div>
 	{/if}

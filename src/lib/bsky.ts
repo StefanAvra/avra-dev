@@ -24,6 +24,8 @@ export interface ThreadViewPost {
 		record: { text?: string; createdAt: string };
 		likeCount?: number;
 		replyCount?: number;
+		repostCount?: number;
+		quoteCount?: number;
 	};
 	replies?: unknown[];
 }
@@ -53,6 +55,15 @@ export function postPath(atUri: string): string {
 	return did && rkey ? `/profile/${did}/post/${rkey}` : '/';
 }
 
+/** bsky.app subroute for one stat on a post; '' is the post itself. */
+export function statPath(
+	atUri: string,
+	sub: '' | 'liked-by' | 'reposted-by' | 'quotes' = ''
+): string {
+	const base = postPath(atUri);
+	return sub ? `${base}/${sub}` : base;
+}
+
 const UNITS: [limit: number, per: number, suffix: string][] = [
 	[60, 1, 's'],
 	[3600, 60, 'm'],
@@ -70,10 +81,12 @@ export function relativeTime(iso: string, now: number = Date.now()): string {
 }
 
 /**
- * Fetch the direct replies to `uri`, nested. Browser-only: the site is prerendered,
- * so calling this from a `load` would run at build time and bake in stale comments.
+ * Fetch the thread rooted at `uri`. Every node in the response — the root and each
+ * reply — carries its own engagement counts, so one call feeds the whole comment UI.
+ * Browser-only: the site is prerendered, so calling this from a `load` would run at
+ * build time and bake in stale comments.
  */
-export async function fetchReplies(uri: string, depth = 6): Promise<ThreadViewPost[]> {
+export async function fetchThread(uri: string, depth = 6): Promise<ThreadViewPost> {
 	const params = new URLSearchParams({ uri, depth: String(depth) });
 	const res = await fetch(`${PUBLIC_APPVIEW}/xrpc/app.bsky.feed.getPostThread?${params}`);
 	if (!res.ok) throw new Error(`getPostThread failed: ${res.status}`);
@@ -81,5 +94,5 @@ export async function fetchReplies(uri: string, depth = 6): Promise<ThreadViewPo
 	const { thread } = (await res.json()) as { thread: unknown };
 	if (!isThreadViewPost(thread)) throw new Error('Thread unavailable');
 
-	return sortByCreatedAt((thread.replies ?? []).filter(isThreadViewPost));
+	return thread;
 }

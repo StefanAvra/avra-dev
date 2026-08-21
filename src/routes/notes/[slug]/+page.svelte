@@ -2,7 +2,6 @@
 	import type { Component } from 'svelte';
 	import { onMount } from 'svelte';
 	import Comments from '$lib/components/Comments.svelte';
-	import PostStats from '$lib/components/PostStats.svelte';
 	let { data } = $props();
 	let Content = $derived(data.content as unknown as Component);
 
@@ -12,7 +11,6 @@
 			link.rel = 'site.standard.document';
 			link.href = data.atproto_uri;
 			document.head.appendChild(link);
-			console.log('data', data);
 		}
 	});
 
@@ -28,7 +26,6 @@
 
 {#if data.bsky_thread_uri}
 	<hr class="my-[1lh] border-0 border-t border-dashed border-border" />
-	<PostStats uri={data.bsky_thread_uri} />
 	<Comments uri={data.bsky_thread_uri} />
 {/if}
 
