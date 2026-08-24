@@ -3,7 +3,7 @@
 
 	const timezone = new Intl.DateTimeFormat('en', {
 		timeZone: 'Europe/Berlin',
-		timeZoneName: 'shortOffset',
+		timeZoneName: 'shortOffset'
 	})
 		.formatToParts(new Date())
 		.find((p) => p.type === 'timeZoneName')?.value;
@@ -22,12 +22,6 @@
 		class="bracketed no-underline"
 		href="https://github.com/stefanavra"
 		target="_blank"
-		rel="noopener">github</a
+		rel="noreferrer">github</a
 	>
-	<!-- <a
-		class="bracketed no-underline"
-		href="https://www.codewars.com/users/avra"
-		target="_blank"
-		rel="noopener noreferrer">codewars</a
-	> -->
 </div>

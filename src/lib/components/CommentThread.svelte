@@ -15,15 +15,13 @@
 	const nested = $derived(sortByCreatedAt((reply.replies ?? []).filter(isThreadViewPost)));
 </script>
 
-<article class="mb-[1lh] animate-fade-in-up opacity-0"
-			style="animation-delay: {index * 40}ms"
-
->
+<article class="mb-[1lh] animate-fade-in-up opacity-0" style="animation-delay: {index * 40}ms">
 	<div class="mb-[0.25lh] flex items-baseline gap-[1ch] text-sm">
 		{#if author.avatar}
 			<img
 				src={author.avatar}
-				alt=""
+				alt="bluesky avatar"
+				referrerpolicy="no-referrer"
 				loading="lazy"
 				class="size-[2ch] shrink-0 self-center rounded-full border border-border"
 			/>
@@ -32,7 +30,8 @@
 			href="https://bsky.app/profile/{author.handle}"
 			rel="noreferrer"
 			target="_blank"
-			class="truncate text-accent no-underline">@{author.handle}</a
+			class="truncate text-accent no-underline"
+			><span class="text-fg">{author.displayName}</span> @{author.handle}</a
 		>
 		<span class="text-muted">·</span>
 		<a

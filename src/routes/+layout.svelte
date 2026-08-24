@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onNavigate } from '$app/navigation';
+	import { resolve } from '$app/paths';
 	import { playSecretSound } from '$lib/actions/beepboop';
 	import { handleHotkey, konamiTriggered } from '$lib/actions/hotkeys';
 	import { snapshotScramble } from '$lib/actions/scramble';
@@ -59,12 +60,17 @@
 
 <Nav {toggleTheme} {isDark} />
 <main
-	class="mx-auto flex min-h-svh max-w-[80ch] flex-col justify-center bg-bg px-[2ch] pt-[calc(var(--spacing-header)+1lh)] pb-[2lh] sm:px-8"
+	class="mx-auto flex min-h-svh max-w-[80ch] flex-col justify-center bg-bg px-[2ch] pt-[calc(var(--spacing-header)+1lh)] pb-[2lh] transition-colors sm:px-8"
 >
 	{@render children()}
 </main>
+<footer class="mx-auto flex max-w-[80ch] flex-col px-[2ch] pb-[3ch] text-muted sm:px-8">
+	<div class="text-sm">
+		<a class="bracketed no-underline" href={resolve('/privacy')}>privacy policy</a>
+	</div>
+</footer>
 <div class="mix-blend-darken dark:mix-blend-lighten">
-	<Background secret={secretActive} ondone={() => (secretActive = false)} />
+	<Background secret={secretActive} {isDark} ondone={() => (secretActive = false)} />
 </div>
 <HotkeyBar />
 <HotkeyHelp />

@@ -17,7 +17,9 @@
 	--color-fg: light-dark(#111111, #ccc);
 	--color-muted: light-dark(#555555, #666666);
 	--color-subtle: light-dark(#e8e8e3, #141414);
-	--color-accent: light-dark(#ff6f00, #33cc66);
+	/* Both ends are named so the canvas background can read them directly —
+	   it picks a side itself rather than resolving light-dark() via the DOM. */
+	--color-accent: light-dark(var(--accent-light), var(--accent-dark));
 	--color-border: light-dark(#bbbbbb, #333333);
 
 	/* markdown palette — light-dark(onPaleBg, onBlackBg), ~AA on each bg */
@@ -34,6 +36,11 @@
 }
 
 :root {
+	/* Plain :root, not @theme — these are the raw ends of --color-accent, not
+	   utility colors, and authored CSS is always emitted. */
+	--accent-light: #ff6f00;
+	--accent-dark: #33cc66;
+
 	font-family: 'Geist Mono Variable', monospace;
 	color-scheme: light dark;
 	color: #ff6f00;

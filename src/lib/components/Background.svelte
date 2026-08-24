@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { untrack } from 'svelte';
 	import { createNoise3D } from '$lib/noise';
 
 	// idx 0/1/2 map to full / dark-shade / medium-shade — coverage of the dither.
@@ -12,16 +13,19 @@
 	const HOVER_RADIUS = 100;
 
 	// How fast the revealed trace fades when the pointer stops (per frame).
-	const TRACE_DECAY = 0.98;
-	const STAMP_STRENGTH = 0.005;
+	const TRACE_DECAY = 1 - 0.004;
+	const STAMP_STRENGTH = 0.006;
 	// Animated brightness field sampled per grid cell.
 	const NOISE_SCALE = 0.26;
 	const NOISE_SPEED = 0.00012;
 
-	let { secret = false, ondone }: { secret?: boolean; ondone?: () => void } = $props();
+	let {
+		secret = false,
+		isDark = false,
+		ondone
+	}: { secret?: boolean; isDark?: boolean; ondone?: () => void } = $props();
 
 	let canvas: HTMLCanvasElement;
-	let colorProbe: HTMLSpanElement;
 
 	const noise3D = createNoise3D();
 
@@ -74,7 +78,6 @@
 			ctx.scale(dpr, dpr);
 			ctx.font = `${FONT_SIZE}px 'Geist Mono Variable', monospace`;
 			ctx.imageSmoothingEnabled = false;
-			color = getComputedStyle(colorProbe).color;
 
 			// We draw the shades ourselves now, so size cells deterministically from
 			// the font's advance and the classic monospace cell aspect. Integer cells
@@ -113,13 +116,37 @@
 			});
 		}
 
+		// Both ends of the accent, read once — the tokens are static, so only the
+		// choice between them changes.
+		const root = getComputedStyle(document.documentElement);
+		const accentLight = root.getPropertyValue('--accent-light').trim();
+		const accentDark = root.getPropertyValue('--accent-dark').trim();
+
+		// resize() bakes `color` into the sprites and runs before the effect below
+		// first flushes, so seed it here — untracked, or reading `isDark` would make
+		// the whole rAF setup restart on every toggle.
+		color = untrack(() => (isDark ? accentDark : accentLight));
+
 		resize();
 		window.addEventListener('resize', resize);
+
+		// The sprites have the accent baked in, so flipping the theme means re-baking
+		// them. A child effect re-runs on its own without tearing down the loop or
+		// wiping the pointer trace.
+		$effect(() => {
+			const next = isDark ? accentDark : accentLight;
+			if (next === color) return;
+			color = next;
+			buildSprites();
+		});
 
 		// The webfont (and the fallback that supplies the block glyphs) may not be
 		// ready at first paint, especially on mobile. Re-measure once it loads so
 		// the grid pitch matches what's actually drawn.
-		document.fonts?.load(`${FONT_SIZE}px 'Geist Mono Variable'`).then(resize).catch(() => {});
+		document.fonts
+			?.load(`${FONT_SIZE}px 'Geist Mono Variable'`)
+			.then(resize)
+			.catch(() => {});
 
 		// Add trace intensity in a soft disc, brightest at its center.
 		function stamp(originX: number, originY: number) {
@@ -183,7 +210,13 @@
 					const brightness = noise3D(c * NOISE_SCALE, r * NOISE_SCALE, tz) * 0.5 + 0.5;
 					const idx = brightness > 0.66 ? 0 : brightness > 0.33 ? 1 : 2;
 					ctx.globalAlpha = Math.min(1, v) * (0.08 + 0.32 * brightness);
-					ctx.drawImage(sprites[idx], c * charWidth, r * rowHeight, charWidth+(1/dpr), rowHeight+(1/dpr) ); // overlapping to make a thin grid
+					ctx.drawImage(
+						sprites[idx],
+						c * charWidth,
+						r * rowHeight,
+						charWidth + 1 / dpr,
+						rowHeight + 1 / dpr
+					); // overlapping to make a thin grid
 				}
 			}
 			ctx.globalAlpha = 1;
@@ -288,5 +321,4 @@
 	}}
 />
 
-<span bind:this={colorProbe} class="hidden text-accent"></span>
 <canvas bind:this={canvas} class="pointer-events-none fixed inset-0 select-none"></canvas>
