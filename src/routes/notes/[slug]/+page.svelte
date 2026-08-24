@@ -13,21 +13,21 @@
 			document.head.appendChild(link);
 		}
 	});
-
-
 </script>
 
-<h1 class="">{data.title}</h1>
-<p class="m-0 mb-[1lh] text-sm text-muted">{data.date.slice(0, 10)}</p>
-<hr class="my-[1lh] border-0 border-t border-dashed border-border" />
-<div class="prose">
-	<Content />
-</div>
-
-{#if data.bsky_thread_uri}
+<div class="mb-auto">
+	<h1 class="mt-header">{data.title}</h1>
+	<p class="m-0 mb-[1lh] text-sm text-muted">{data.date.slice(0, 10)}</p>
 	<hr class="my-[1lh] border-0 border-t border-dashed border-border" />
-	<Comments uri={data.bsky_thread_uri} />
-{/if}
+	<div class="prose">
+		<Content />
+	</div>
+
+	{#if data.bsky_thread_uri}
+		<hr class="my-[1lh] border-0 border-t border-dashed border-border" />
+		<Comments uri={data.bsky_thread_uri} />
+	{/if}
+</div>
 
 <style>
 	.prose :global(p) {

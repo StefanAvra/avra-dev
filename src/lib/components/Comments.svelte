@@ -30,11 +30,11 @@
 </script>
 
 <section class="mt-[1lh]">
-	{#if thread}
-		<div class="mb-[1lh]">
+	<div class="mb-[1lh] min-h-[2ch]">
+		{#if thread}
 			<PostStats post={thread.post} />
-		</div>
-	{/if}
+		{/if}
+	</div>
 
 	<h2 class="m-0 mb-[1lh] text-base">Comments</h2>
 
@@ -50,12 +50,14 @@
 		<p class="m-0 text-sm text-muted">No comments yet.</p>
 	{/if}
 
-	<p class="m-0 mt-[1lh] text-sm">
-		<a
-			href="https://bsky.app{path}"
-			rel="noreferrer"
-			target="_blank"
-			class="bracketed text-accent no-underline">Reply on Bluesky</a
-		>
-	</p>
+	{#if replies !== null}
+		<p class="m-0 mt-[1lh] text-sm">
+			<a
+				href="https://bsky.app{path}"
+				rel="noreferrer"
+				target="_blank"
+				class="bracketed text-accent no-underline">Reply on Bluesky</a
+			>
+		</p>
+	{/if}
 </section>
