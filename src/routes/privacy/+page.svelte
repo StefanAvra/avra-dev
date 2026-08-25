@@ -7,7 +7,7 @@
 </svelte:head>
 
 <h1 class="m-0 mb-[1lh] font-extrabold">Privacy</h1>
-<p class="m-0 text-sm text-muted">Last updated 24 August 2026</p>
+<p class="m-0 text-sm text-muted">Last updated 25 August 2026</p>
 <hr class="my-[1lh] border-t border-none border-border" />
 
 <p class="m-0 mb-[1lh]">
@@ -47,9 +47,12 @@
 	requests from your browser to Bluesky Social PBC, so they receive your IP address and your
 	user-agent. They can also see that the request came from avra.dev, but not which note you were
 	reading: the API call sends only the site's origin, and the avatars are requested with no referrer
-	at all. It happens as the page loads. The request carries no token and no cookie. The legal basis
-	is legitimate interest in showing the comments that belong to the post you opened (Art. 6(1)(f)
-	GDPR). Bluesky Social PBC is based in the United States; see
+	at all. Nothing is requested when the page loads: the fetch waits until the comments are about to
+	scroll into view, so if you leave a note before reaching them, your browser never contacts Bluesky
+	at all. On a short note, or in a browser too old to defer, that point comes immediately. The
+	request carries no token and no cookie. The legal basis is legitimate interest in showing the
+	comments that belong to the post you opened (Art. 6(1)(f) GDPR). Bluesky Social PBC is based in
+	the United States; see
 	<a
 		class="text-accent no-underline"
 		href="https://bsky.social/about/support/privacy-policy"

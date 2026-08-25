@@ -8,7 +8,10 @@
 	data-keyboard-active={$keyboardActive || undefined}
 >
 	<a class="bracketed no-underline" href={resolve('/privacy')}>privacy policy</a>
-	<button class="opacity-50 transition-opacity hover:opacity-100" onclick={() => toggleHelp()}>
+	<button
+		class="cursor-pointer opacity-50 transition-opacity hover:opacity-100"
+		onclick={() => toggleHelp()}
+	>
 		<kbd class="text-accent">[?]</kbd> help</button
 	>
 </footer>

@@ -14,22 +14,40 @@
 
 	let thread = $state<ThreadViewPost | null>(null);
 	let failed = $state(false);
+	let section = $state<HTMLElement>();
 
 	const path = $derived(postPath(uri));
 	const replies = $derived(
 		thread ? sortByCreatedAt((thread.replies ?? []).filter(isThreadViewPost)) : null
 	);
 
-	onMount(async () => {
+	async function loadThread() {
 		try {
 			thread = await fetchThread(uri);
 		} catch {
 			failed = true;
 		}
+	}
+
+	onMount(() => {
+		if (!section || typeof IntersectionObserver !== 'function') {
+			loadThread();
+			return;
+		}
+		const observer = new IntersectionObserver(
+			(entries) => {
+				if (!entries.some((entry) => entry.isIntersecting)) return;
+				observer.disconnect();
+				loadThread();
+			},
+			{ rootMargin: '200px' }
+		);
+		observer.observe(section);
+		return () => observer.disconnect();
 	});
 </script>
 
-<section class="mt-[1lh]">
+<section class="mt-[1lh]" bind:this={section}>
 	<div class="mb-[1lh] min-h-[2ch]">
 		{#if thread}
 			<PostStats post={thread.post} />
