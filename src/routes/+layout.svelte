@@ -1,10 +1,9 @@
 <script lang="ts">
 	import { onNavigate } from '$app/navigation';
-	import { resolve } from '$app/paths';
 	import { playSecretSound } from '$lib/actions/beepboop';
 	import { handleHotkey, konamiTriggered } from '$lib/actions/hotkeys';
 	import { snapshotScramble } from '$lib/actions/scramble';
-	import HotkeyBar from '$lib/components/HotkeyBar.svelte';
+	import Footer from '$lib/components/Footer.svelte';
 	import HotkeyHelp from '$lib/components/HotkeyHelp.svelte';
 	import Background from '$lib/components/Background.svelte';
 	import '../app.css';
@@ -64,13 +63,9 @@
 >
 	{@render children()}
 </main>
-<footer class="mx-auto flex max-w-[80ch] flex-col px-[2ch] pb-[3ch] text-muted sm:px-8">
-	<div class="text-sm">
-		<a class="bracketed no-underline" href={resolve('/privacy')}>privacy policy</a>
-	</div>
-</footer>
+
 <div class="mix-blend-darken dark:mix-blend-lighten">
 	<Background secret={secretActive} {isDark} ondone={() => (secretActive = false)} />
 </div>
-<HotkeyBar />
+<Footer />
 <HotkeyHelp />

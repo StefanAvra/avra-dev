@@ -17,6 +17,10 @@ function isEditable(target: EventTarget | null): boolean {
 	return false;
 }
 
+export function toggleHelp() {
+	showHelp.update((v) => !v);
+}
+
 export function handleHotkey(event: KeyboardEvent, toggleTheme: () => void) {
 	if (event.ctrlKey || event.altKey || event.metaKey) return;
 	if (isEditable(event.target)) return;
