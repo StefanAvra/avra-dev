@@ -53,6 +53,7 @@
 
 <svelte:head>
 	<title>Stefan Avramescu</title>
+	<link rel="me" href="https://mastodon.social/@Avra" />
 </svelte:head>
 
 <svelte:window onkeydown={(e) => handleHotkey(e, toggleTheme)} />
