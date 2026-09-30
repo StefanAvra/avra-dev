@@ -3,13 +3,30 @@
 </script>
 
 <svelte:head>
-	<title>Privacy — Stefan Avramescu</title>
+	<title>Imprint &amp; privacy — Stefan Avramescu</title>
 </svelte:head>
 
-<h1 class="m-0 mb-[1lh] font-extrabold">Privacy</h1>
-<p class="m-0 text-sm text-muted">Last updated 25 August 2026</p>
+<h1 class="m-0 mb-[1lh] font-extrabold">Imprint &amp; privacy</h1>
 <hr class="my-[1lh] border-t border-none border-border" />
 
+<h2 class="m-0 mb-[0.5lh] text-base font-bold">Imprint</h2>
+<p class="m-0 mb-[1lh]">
+	Information according to § 5 DDG
+	<br />
+	<br />
+	Stefan Avramescu
+	<br />
+	Wunnensteinstr. 41
+	<br />
+	70186 Stuttgart
+	<br />
+	Germany
+	<br />
+	<br />
+	Email: imprint<span class="hidden">.nospam</span>@<span class="hidden">example.</span>avra.dev
+</p>
+
+<h2 class="m-0 mb-[0.5lh] text-base font-bold">Privacy</h2>
 <p class="m-0 mb-[1lh]">
 	This site is static. There is no server of mine, no database, no accounts, no forms, no cookies,
 	no analytics and no advertising. Most of what a privacy policy usually covers doesn't happen here.
@@ -99,6 +116,4 @@
 </p>
 
 <h2 class="m-0 mb-[0.5lh] text-base font-bold">Changes</h2>
-<p class="m-0">
-	If what the site does changes, this page changes with it and the date at the top moves.
-</p>
+<p class="m-0">If what the site does changes, this page changes with it.</p>
