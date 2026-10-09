@@ -1,3 +1,4 @@
+import { execSync } from 'node:child_process';
 import adapter from '@sveltejs/adapter-static';
 import { escapeSvelte, mdsvex, type MdsvexOptions } from 'mdsvex';
 import { createHighlighter } from 'shiki';
@@ -39,12 +40,20 @@ const externalLinkIcon = {
 	].map((d) => ({ type: 'element', tagName: 'path', properties: { d }, children: [] }))
 };
 
+// The deployed commit, shown in the footer. Also SvelteKit's app version, which must be
+// deterministic. Committer date rather than build date, so it matches the hash.
+const [commitHash, commitDate] = execSync('git log -1 --format=%H%n%cs')
+	.toString()
+	.trim()
+	.split('\n');
+
 const highlighter = await createHighlighter({
 	themes: [palette],
 	langs: ['ts', 'js', 'svelte', 'bash', 'json', 'css', 'html', 'md', 'yaml', 'diff']
 });
 
 export default defineConfig({
+	define: { __COMMIT_DATE__: JSON.stringify(commitDate) },
 	plugins: [
 		tailwindcss(),
 		sveltekit({
@@ -102,6 +111,7 @@ export default defineConfig({
 					if (!href.startsWith('at://')) throw new Error(message);
 				}
 			},
+			version: { name: commitHash },
 			adapter: adapter({ pages: 'build', assets: 'build', fallback: undefined })
 		}),
 		devtoolsJson()

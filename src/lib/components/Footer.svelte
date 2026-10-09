@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { keyboardActive, toggleHelp } from '#lib/actions/hotkeys.js';
 	import { resolve } from '$app/paths';
+	import { version } from '$app/env';
 	import { Rss } from '@lucide/svelte';
 </script>
 
@@ -21,11 +22,20 @@
 		>
 			<Rss class="size-[2ch]" strokeWidth={1.5} aria-hidden="true" />
 		</a>
+		<!-- Hidden on phones: with it the footer outgrows a 375px screen. -->
+		<a
+			class="hidden no-underline transition-colors hover:text-accent sm:inline"
+			href="https://github.com/StefanAvra/avra-dev/commit/{version}"
+			target="_blank"
+			rel="noreferrer"
+			aria-label="Deployed commit {version.slice(0, 7)} on GitHub"
+			>{version.slice(0, 7)} · <time datetime={__COMMIT_DATE__}>{__COMMIT_DATE__}</time></a
+		>
 	</div>
 	<button
 		class="cursor-pointer opacity-50 transition-opacity hover:opacity-100"
 		onclick={() => toggleHelp()}
 	>
-		<kbd class="text-accent">[?]</kbd> help</button
+		<kbd class="text-accent">[?]</kbd></button
 	>
 </footer>
