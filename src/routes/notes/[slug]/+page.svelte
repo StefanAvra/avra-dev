@@ -77,11 +77,13 @@
 	.prose :global(a:not(.heading-anchor):hover) {
 		text-decoration-color: currentColor;
 	}
-	.prose :global(a[href^='http'])::after {
-		content: '↗';
-		margin-left: 0.15em;
-		font-family: var(--font-mono);
-		font-size: 0.75em;
+	/* Lucide external-link icon appended by rehype-external-links (svelte.config.js) */
+	.prose :global(.external-link-icon svg) {
+		display: inline-block;
+		width: 0.7em;
+		height: 0.7em;
+		margin-left: 0.2em;
+		vertical-align: baseline;
 		color: var(--color-muted);
 	}
 
