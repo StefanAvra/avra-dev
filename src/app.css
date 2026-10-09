@@ -3,6 +3,8 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @import '@fontsource-variable/geist-mono';
+@import '@fontsource-variable/source-serif-4/opsz.css';
+@import '@fontsource-variable/source-serif-4/opsz-italic.css';
 
 @layer base {
 	h1 {
@@ -13,6 +15,9 @@
 }
 
 @theme {
+	--font-mono: 'Geist Mono Variable', ui-monospace, monospace;
+	--font-serif: 'Source Serif 4 Variable', ui-serif, Georgia, serif;
+
 	--color-bg: light-dark(#f5f5f0, #0d0d0d);
 	--color-fg: light-dark(#111111, #ccc);
 	--color-muted: light-dark(#555555, #666666);
@@ -41,9 +46,27 @@
 	--accent-light: #ff6f00;
 	--accent-dark: #33cc66;
 
-	font-family: 'Geist Mono Variable', monospace;
+	/* Shiki css-variables theme (see svelte.config.js), mapped onto the palette */
+	--shiki-foreground: var(--color-fg);
+	--shiki-background: var(--color-subtle);
+	--shiki-token-keyword: var(--color-red);
+	--shiki-token-string: var(--color-green);
+	--shiki-token-string-expression: var(--color-green);
+	--shiki-token-function: var(--color-blue);
+	--shiki-token-constant: var(--color-orange);
+	--shiki-token-parameter: var(--color-yellow);
+	--shiki-token-comment: var(--color-muted);
+	--shiki-token-punctuation: var(--color-muted);
+	--shiki-token-link: var(--color-pink);
+
+	font-family: var(--font-mono);
 	color-scheme: light dark;
 	color: #ff6f00;
+}
+
+html {
+	/* keep heading anchors clear of the fixed nav */
+	scroll-padding-top: calc(var(--spacing-header) + 1lh);
 }
 
 body {
@@ -74,6 +97,24 @@ body {
 code:not(pre > code) {
 	color: light-dark(#555, #bbb);
 	font-weight: 400;
+}
+
+/* Note titles morph word by word between a notes list and the note page
+   (NoteTitle.svelte). Each word keeps its aspect ratio, so the UA default of
+   scaling the snapshot with its group works; words slide between rows when the
+   title wraps differently. */
+@media (prefers-reduced-motion: no-preference) {
+	::view-transition-group(*.note-word),
+	::view-transition-old(*.note-word),
+	::view-transition-new(*.note-word) {
+		animation-duration: 0.4s;
+		animation-timing-function: cubic-bezier(0.15, 1, 0.3, 0.99);
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	::view-transition-group(*.note-word) {
+		animation: none;
+	}
 }
 
 @keyframes fade-in-up {

@@ -1,5 +1,7 @@
 <script lang="ts">
+	import { flushSync } from 'svelte';
 	import { onNavigate } from '$app/navigation';
+	import { resolve } from '$app/paths';
 	import { playSecretSound } from '$lib/actions/beepboop';
 	import { handleHotkey, konamiTriggered } from '$lib/actions/hotkeys';
 	import { snapshotScramble } from '$lib/actions/scramble';
@@ -8,6 +10,7 @@
 	import Background from '$lib/components/Background.svelte';
 	import '../app.css';
 	import Nav from './Nav.svelte';
+	import { noteTransition, staggerNoteWords } from '$lib/noteTransition.svelte';
 
 	let { children } = $props();
 
@@ -16,11 +19,23 @@
 
 		if (!document.startViewTransition) return;
 
+		// Name the morphing title's words before the old page is captured.
+		const { from, to } = navigation;
+		noteTransition.slug =
+			to?.route.id === '/notes/[slug]'
+				? (to.params?.slug ?? null)
+				: from?.route.id === '/notes/[slug]'
+					? (from.params?.slug ?? null)
+					: null;
+		flushSync();
+
 		return new Promise((resolve) => {
-			document.startViewTransition(async () => {
+			const transition = document.startViewTransition(async () => {
 				resolve();
 				await navigation.complete;
 			});
+			// `ready` rejects when the transition is skipped; nothing to stagger then.
+			transition.ready.then(staggerNoteWords, () => {});
 		});
 	});
 
@@ -54,6 +69,7 @@
 <svelte:head>
 	<title>Stefan Avramescu</title>
 	<link rel="me" href="https://mastodon.social/@Avra" />
+	<link rel="alternate" type="application/rss+xml" title="avra.dev" href={resolve('/rss.xml')} />
 </svelte:head>
 
 <svelte:window onkeydown={(e) => handleHotkey(e, toggleTheme)} />

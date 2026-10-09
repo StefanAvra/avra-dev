@@ -1,3 +1,4 @@
+import { noteStats } from '$lib/noteStats';
 import type { EntryGenerator, PageLoad } from './$types';
 
 export const prerender = true;
@@ -11,6 +12,10 @@ export const entries: EntryGenerator = async () => {
 
 export const load: PageLoad = async ({ params }) => {
 	const modules = import.meta.glob('../../../lib/posts/*.md');
+	const raws = import.meta.glob<string>('../../../lib/posts/*.md', {
+		query: '?raw',
+		import: 'default'
+	});
 	const path = `../../../lib/posts/${params.slug}.md`;
 	const mod = (await modules[path]()) as {
 		default: unknown;
@@ -20,6 +25,7 @@ export const load: PageLoad = async ({ params }) => {
 			description: string;
 			atproto_uri?: string;
 			bsky_thread_uri?: string;
+			tags?: string[];
 		};
 	};
 	return {
@@ -29,6 +35,8 @@ export const load: PageLoad = async ({ params }) => {
 		description: mod.metadata.description,
 		atproto_uri: mod.metadata.atproto_uri,
 		bsky_thread_uri: mod.metadata.bsky_thread_uri,
-		slug: params.slug
+		tags: (mod.metadata.tags ?? []).filter(Boolean),
+		slug: params.slug,
+		stats: noteStats(await raws[path]())
 	};
 };

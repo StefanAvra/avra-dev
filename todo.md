@@ -1,5 +1,5 @@
 - add a little globe, display the timezone
-- rss
+- ~~rss~~ — done (summary-only `/rss.xml`)
 - opg tags
 - lighthouse
 - markdown styles
@@ -35,9 +35,8 @@ Still text-only, to sweep once the convention feels right: nav brackets, `Hotkey
 ## remaining
 
 - skeleton for comment section
-- render tags on the site — chips on the note page and `/notes`, plus a prerendered
-  `/notes/tag/[tag]` route. The data already exists in frontmatter (`tags:`) and is
-  mirrored to `site.standard.document.tags`; only the UI is missing.
+- ~~render tags on the site~~ — done: `#tag` links in the note meta row and on `/notes`,
+  prerendered `/notes/tag/[tag]` pages.
 - `svelte.config.js` sets `paths.base = '/avra-dev'` for non-dev builds, so deployed
   nav links point at `/avra-dev/notes/...` and 404 — `avra.dev` serves from the apex.
 - filter replies from muted/blocked accounts (needs auth, so probably never).
