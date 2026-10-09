@@ -38,6 +38,8 @@
 	--animate-reveal-in-center: reveal-in-center 0.2s linear forwards;
 
 	--spacing-header: 3lh;
+	/* rem, not lh: the page wrapper and the text-sm footer must agree on it */
+	--spacing-footer: 3.75rem;
 }
 
 :root {

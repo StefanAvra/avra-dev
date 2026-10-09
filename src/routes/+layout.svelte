@@ -42,6 +42,14 @@
 	let secretActive = $state(false);
 	let isDark = $state(false);
 
+	// How far the page's bottom edge has lifted off the footer, in px. The corner
+	// radius follows it (capped in CSS), so a page that fits the viewport stays
+	// square until you actually scroll the footer into view.
+	let scrollY = $state(0);
+	let innerHeight = $state(0);
+	let pageHeight = $state(0);
+	const revealed = $derived(Math.max(0, scrollY + innerHeight - pageHeight));
+
 	$effect(() => {
 		const stored = localStorage.getItem('theme');
 		isDark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -72,16 +80,24 @@
 	<link rel="alternate" type="application/rss+xml" title="avra.dev" href={resolve('/rss.xml')} />
 </svelte:head>
 
-<svelte:window onkeydown={(e) => handleHotkey(e, toggleTheme)} />
+<svelte:window bind:scrollY bind:innerHeight onkeydown={(e) => handleHotkey(e, toggleTheme)} />
 
 <Nav {toggleTheme} {isDark} />
-<main
-	class="mx-auto flex min-h-svh max-w-[80ch] flex-col justify-center bg-bg px-[2ch] pt-[calc(var(--spacing-header)+1lh)] pb-[2lh] transition-colors sm:px-8"
+<!-- The page sits above the fixed footer and lifts off it at the end of the scroll. -->
+<div
+	class="relative z-[1] mb-footer rounded-b-[min(var(--revealed),var(--radius-3xl))] bg-bg transition-colors"
+	style:--revealed="{revealed}px"
+	bind:offsetHeight={pageHeight}
 >
-	{@render children()}
-</main>
+	<main
+		class="mx-auto flex min-h-svh max-w-[80ch] flex-col justify-center px-[2ch] pt-[calc(var(--spacing-header)+1lh)] pb-[2lh] sm:px-8"
+	>
+		{@render children()}
+	</main>
+</div>
 
-<div class="mix-blend-darken dark:mix-blend-lighten">
+<!-- Above the page so the trace still blends over it. -->
+<div class="relative z-[2] mix-blend-darken dark:mix-blend-lighten">
 	<Background secret={secretActive} {isDark} ondone={() => (secretActive = false)} />
 </div>
 <Footer />

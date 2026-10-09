@@ -3,8 +3,11 @@
 	import { resolve } from '$app/paths';
 </script>
 
+<!-- Fixed (not sticky) behind the page so it stays put during overscroll bounce.
+     The ::before fill extends it upward, so the rounded corners and any gap the
+     bounce opens above it show the footer color rather than the body. -->
 <footer
-	class="flex items-center justify-between gap-[3ch] border-t-[0.5px] border-border bg-bg/50 px-[2ch] py-1 text-sm text-muted opacity-100 backdrop-blur-3xl transition-all data-keyboard-active:opacity-100 sm:px-8"
+	class="fixed inset-x-0 bottom-0 flex h-footer items-center justify-between gap-[3ch] bg-subtle px-[2ch] text-sm text-muted opacity-100 transition-all before:absolute before:inset-x-0 before:bottom-full before:h-svh before:bg-subtle data-keyboard-active:opacity-100 sm:px-8"
 	data-keyboard-active={$keyboardActive || undefined}
 >
 	<div class="flex gap-[2ch]">
