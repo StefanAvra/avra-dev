@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { Mail } from '@lucide/svelte';
+
 	const r = (s: string) => [...s].reverse().join('');
 	let address = $state<string>();
 
@@ -18,13 +20,16 @@
 <div class="group relative">
 	<a
 		id="email"
-		class="bracketed no-underline"
+		class="flex transition-colors hover:text-accent"
 		href={address ? `mailto:${address}` : '#email'}
+		aria-label="Email"
 		aria-describedby="email-address"
 		onpointerenter={reveal}
 		onfocus={reveal}
-		{onclick}>email</a
+		{onclick}
 	>
+		<Mail class="size-[2ch]" strokeWidth={1.5} aria-hidden="true" />
+	</a>
 	<div
 		id="email-address"
 		role="tooltip"

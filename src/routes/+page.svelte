@@ -1,5 +1,6 @@
 <script lang="ts">
 	import EmailTooltip from '$lib/components/EmailTooltip.svelte';
+	import GithubIcon from '$lib/components/GithubIcon.svelte';
 
 	const timezone = new Intl.DateTimeFormat('en', {
 		timeZone: 'Europe/Berlin',
@@ -16,12 +17,15 @@
 	Welcome to my personal site. A place to experiment, share notes and projects.
 </p>
 
-<div class="flex gap-[2ch]">
+<div class="flex items-center gap-[2ch]">
 	<EmailTooltip />
 	<a
-		class="bracketed no-underline"
+		class="flex transition-colors hover:text-accent"
 		href="https://github.com/stefanavra"
 		target="_blank"
-		rel="noreferrer">github</a
+		rel="noreferrer"
+		aria-label="GitHub"
 	>
+		<GithubIcon class="size-[2ch]" strokeWidth={1.5} aria-hidden="true" />
+	</a>
 </div>
