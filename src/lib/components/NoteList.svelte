@@ -13,7 +13,11 @@
 <ul class="m-0 flex list-none flex-col p-0">
 	{#each posts as post, index (post.slug)}
 		<li
-			class={['text-muted', post.slug !== returningFrom && 'animate-fade-in-up opacity-0']}
+			class={[
+				// relative anchors the ❋ ::before; don't rely on the fade-in's translate for it
+				'relative text-muted',
+				post.slug !== returningFrom && 'animate-fade-in-up opacity-0'
+			]}
 			data-hotkey-item
 			style="animation-delay: {index * 40}ms"
 		>
