@@ -75,6 +75,38 @@ Notes for later:
 - validate with opengraph.xyz / Bluesky's composer card preview / Mastodon preview (paste the URL,
   don't post).
 
+## bluesky client picker (comments)
+
+An inline dropdown in the comments section that lets the visitor pick which Bluesky web
+client the links open in: bsky.app, mu.social, deer.social, blacksky.community,
+witchsky.app. They all use the same `/profile/<handle>/post/<rkey>` paths, so the
+component only swaps the hostname and remembers the choice.
+
+- Links that change: `Comments.svelte:74`, `PostStats.svelte:26`, and both links in
+  `CommentThread.svelte`. `postPath` / `statPath` in `src/lib/bsky.ts` already return
+  bare paths, so the host becomes one shared value (a store or `$state` in a `.svelte.ts`).
+- Remember the choice in `localStorage` (wrap it in try/catch). Prerendered HTML ships
+  bsky.app, and the saved host is applied after hydration.
+- Check that the `statPath` subroutes (liked-by, reposted-by, quotes) exist on each fork.
+  The post and profile paths are the only ones known to match.
+- Update `/privacy`: it says the links go to bsky.app, and it would also need to mention
+  the stored preference.
+
+## visitor analytics (self-hosted)
+
+There's currently no way to see visitor counts. The goal is a minimal, cookieless
+counter, self-hosted. The site is static on GitHub Pages, so this needs a separate
+server (VPS / coolify / similar) on a subdomain.
+
+- Candidates: **Umami** (Node + Postgres, light) and **Plausible CE** (Elixir + Postgres
+  - ClickHouse, heavier to run). **GoatCounter** (one Go binary + SQLite) is worth a
+    look if those feel like too much to run.
+- One `<script defer>` tag in `app.html` (or the layout), production only so dev
+  traffic doesn't count. Serve it from my own subdomain, since blocklists catch the
+  default script names less often there.
+- Check that client-side navigations count as page views (SvelteKit doesn't reload the page).
+- Update `/privacy`: say what's collected, where it's hosted, and that there are no cookies.
+
 ## remaining
 
 - skeleton for comment section
