@@ -10,7 +10,7 @@
 	import Background from '$lib/components/Background.svelte';
 	import '../app.css';
 	import Nav from './Nav.svelte';
-	import { noteTransition, staggerNoteWords } from '$lib/noteTransition.svelte';
+	import { noteTransition, staggerNoteWords, tagTransition } from '$lib/noteTransition.svelte';
 
 	let { children } = $props();
 
@@ -19,13 +19,19 @@
 
 		if (!document.startViewTransition) return;
 
-		// Name the morphing title's words before the old page is captured.
+		// Name the morphing title's words and tag before the old page is captured.
 		const { from, to } = navigation;
 		noteTransition.slug =
 			to?.route.id === '/notes/[slug]'
 				? (to.params?.slug ?? null)
 				: from?.route.id === '/notes/[slug]'
 					? (from.params?.slug ?? null)
+					: null;
+		tagTransition.slug =
+			to?.route.id === '/notes/tag/[tag]'
+				? (to.params?.tag ?? null)
+				: from?.route.id === '/notes/tag/[tag]'
+					? (from.params?.tag ?? null)
 					: null;
 		flushSync();
 

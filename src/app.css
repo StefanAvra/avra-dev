@@ -104,7 +104,8 @@ code:not(pre > code) {
 /* Note titles morph word by word between a notes list and the note page
    (NoteTitle.svelte). Each word keeps its aspect ratio, so the UA default of
    scaling the snapshot with its group works; words slide between rows when the
-   title wraps differently. */
+   title wraps differently. Tags morph the same way between a tag link and the
+   tag page's heading (TagLinks.svelte). */
 @media (prefers-reduced-motion: no-preference) {
 	::view-transition-group(*.note-word),
 	::view-transition-old(*.note-word),

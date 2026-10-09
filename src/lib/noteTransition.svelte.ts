@@ -7,6 +7,13 @@
  */
 export const noteTransition = $state({ slug: null as string | null });
 
+/**
+ * Slug of the tag morphing between a tag link and the tag page's heading, set
+ * alongside `noteTransition`. TagLinks only names this tag, so a note page's
+ * tags don't morph into the notes index.
+ */
+export const tagTransition = $state({ slug: null as string | null });
+
 const WORD_STAGGER_MS = 5;
 
 /**
