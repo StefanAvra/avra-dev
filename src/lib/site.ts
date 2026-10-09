@@ -2,3 +2,4 @@
 export const SITE_URL = 'https://avra.dev';
 export const SITE_NAME = 'avra.dev';
 export const SITE_DESCRIPTION = 'Notes by Stefan Avramescu.';
+export const SITE_AUTHOR = 'Stefan Avramescu';

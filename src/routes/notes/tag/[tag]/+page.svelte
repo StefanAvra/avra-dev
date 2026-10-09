@@ -1,8 +1,11 @@
 <script lang="ts">
+	import Meta from '$lib/components/Meta.svelte';
 	import NoteList from '$lib/components/NoteList.svelte';
 	import { tagSlug } from '$lib/posts';
 	let { data } = $props();
 </script>
+
+<Meta title="#{data.tag}" description="Notes tagged #{data.tag}." />
 
 <h1>
 	<!-- Morphs from the tag link on /notes (TagLinks.svelte). -->

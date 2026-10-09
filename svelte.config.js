@@ -88,8 +88,12 @@ const config = {
 		})
 	],
 	kit: {
-		paths: {
-			base: process.argv.includes('dev') ? '' : '/avra-dev'
+		prerender: {
+			// The crawler follows every href, including the at:// URI in a note's
+			// <link rel="site.standard.document">. Skip those; anything else still fails.
+			handleInvalidUrl({ href, message }) {
+				if (!href.startsWith('at://')) throw new Error(message);
+			}
 		},
 		adapter: adapter({
 			pages: 'build',

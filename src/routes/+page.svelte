@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Meta from '$lib/components/Meta.svelte';
 	import EmailTooltip from '$lib/components/EmailTooltip.svelte';
 	import GithubIcon from '$lib/components/GithubIcon.svelte';
 
@@ -9,6 +10,10 @@
 		.formatToParts(new Date())
 		.find((p) => p.type === 'timeZoneName')?.value;
 </script>
+
+<Meta
+	description="Full stack engineer based in Europe. A place to experiment, share notes and projects."
+/>
 
 <h1 class="">Stefan Avramescu</h1>
 <p class="m-0 mb-[1lh]">

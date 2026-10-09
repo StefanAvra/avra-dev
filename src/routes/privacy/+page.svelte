@@ -1,10 +1,10 @@
 <script lang="ts">
 	import EmailTooltip from '$lib/components/EmailTooltip.svelte';
+	import Meta from '$lib/components/Meta.svelte';
 </script>
 
-<svelte:head>
-	<title>Imprint &amp; privacy — Stefan Avramescu</title>
-</svelte:head>
+<!-- noindex keeps the imprint's street address out of search results. -->
+<Meta title="Imprint & privacy" description="Imprint and privacy policy for avra.dev." noindex />
 
 <h1 class="m-0 mb-[1lh] font-extrabold">Imprint &amp; privacy</h1>
 <hr class="my-[1lh] border-t border-none border-border" />

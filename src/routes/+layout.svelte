@@ -10,6 +10,7 @@
 	import Background from '$lib/components/Background.svelte';
 	import '../app.css';
 	import Nav from './Nav.svelte';
+	import { SITE_AUTHOR } from '$lib/site';
 	import { noteTransition, staggerNoteWords, tagTransition } from '$lib/noteTransition.svelte';
 
 	let { children } = $props();
@@ -81,8 +82,10 @@
 </script>
 
 <svelte:head>
-	<title>Stefan Avramescu</title>
+	<!-- Fallback; each page's Meta replaces it (Svelte keeps the deepest <title>). -->
+	<title>{SITE_AUTHOR}</title>
 	<link rel="me" href="https://mastodon.social/@Avra" />
+	<meta name="fediverse:creator" content="@Avra@mastodon.social" />
 	<link rel="alternate" type="application/rss+xml" title="avra.dev" href={resolve('/rss.xml')} />
 </svelte:head>
 

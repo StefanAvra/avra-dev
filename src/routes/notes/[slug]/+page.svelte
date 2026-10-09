@@ -1,22 +1,26 @@
 <script lang="ts">
 	import type { Component } from 'svelte';
-	import { onMount } from 'svelte';
 	import Comments from '$lib/components/Comments.svelte';
+	import Meta from '$lib/components/Meta.svelte';
 	import NoteLength from '$lib/components/NoteLength.svelte';
 	import TagLinks from '$lib/components/TagLinks.svelte';
 	import NoteTitle from '$lib/components/NoteTitle.svelte';
+	import { SITE_DESCRIPTION } from '$lib/site';
 	let { data } = $props();
 	let Content = $derived(data.content as unknown as Component);
-
-	onMount(() => {
-		if (data.atproto_uri) {
-			const link = document.createElement('link');
-			link.rel = 'site.standard.document';
-			link.href = data.atproto_uri;
-			document.head.appendChild(link);
-		}
-	});
 </script>
+
+<Meta
+	title={data.title}
+	description={data.description || SITE_DESCRIPTION}
+	article={{ published: data.date, tags: data.tags }}
+/>
+
+<svelte:head>
+	{#if data.atproto_uri}
+		<link rel="site.standard.document" href={data.atproto_uri} />
+	{/if}
+</svelte:head>
 
 <div class="mb-auto">
 	<h1 class="mt-header">
