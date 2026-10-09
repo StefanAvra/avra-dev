@@ -1,3 +1,18 @@
-# allow crawling everything by default
+# Search engines, AI search and user-triggered fetches are welcome.
+# Content-Signal is Cloudflare's proposal (contentsignals.org); parsers that don't know it skip it.
 User-agent: *
-Disallow:
+Content-Signal: search=yes, ai-input=yes, ai-train=no
+Allow: /
+
+# AI training crawlers. This states a preference, nothing more: notes are also
+# published to the atproto firehose, which robots.txt doesn't cover.
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: CCBot
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: meta-externalagent
+User-agent: Bytespider
+Disallow: /
+
+Sitemap: https://avra.dev/sitemap.xml

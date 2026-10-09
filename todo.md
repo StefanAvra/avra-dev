@@ -63,14 +63,8 @@ Notes for later:
 
 ### robots.txt, sitemap & co
 
-- `src/routes/sitemap.xml/+server.ts`, prerendered, same pattern as `rss.xml/+server.ts`: home,
-  /notes, /projects (not /privacy, it's noindex), every note (`lastmod` = date), every tag page.
-- `static/robots.txt`: add `Sitemap: https://avra.dev/sitemap.xml` and disallow the AI _training_
-  crawlers: GPTBot, ClaudeBot, CCBot, Google-Extended, Applebot-Extended, meta-externalagent,
-  Bytespider. Search/fetch agents (OAI-SearchBot, ChatGPT-User, Claude-SearchBot, Claude-User,
-  PerplexityBot) stay allowed. Optionally `Content-Signal: search=yes, ai-input=yes, ai-train=no`.
-  This only signals a preference. The notes are on the atproto firehose too, which robots.txt
-  doesn't cover.
+- ~~sitemap.xml + robots.txt~~ — done: sitemap lists everything but /privacy; robots.txt blocks
+  AI training crawlers only, with a `Content-Signal` line and the `Sitemap:` pointer.
 - 404: there's no `+error.svelte`, and adapter-static's `fallback` is undefined, so GitHub Pages shows
   its own 404. Add `src/routes/+error.svelte` + `fallback: '404.html'` in `svelte.config.js`.
 - optional: `static/.well-known/security.txt` (Contact + Expires).
