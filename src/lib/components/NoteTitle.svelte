@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { noteTransition } from '$lib/noteTransition.svelte';
+	import { noteTransition } from '#lib/noteTransition.svelte.js';
 
 	// `always` names the words even when this title isn't the morphing one —
 	// used on the note page, where there's only ever one title.

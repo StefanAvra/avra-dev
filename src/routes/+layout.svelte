@@ -2,16 +2,16 @@
 	import { flushSync } from 'svelte';
 	import { onNavigate } from '$app/navigation';
 	import { resolve } from '$app/paths';
-	import { playSecretSound } from '$lib/actions/beepboop';
-	import { handleHotkey, konamiTriggered } from '$lib/actions/hotkeys';
-	import { snapshotScramble } from '$lib/actions/scramble';
-	import Footer from '$lib/components/Footer.svelte';
-	import HotkeyHelp from '$lib/components/HotkeyHelp.svelte';
-	import Background from '$lib/components/Background.svelte';
+	import { playSecretSound } from '#lib/actions/beepboop.js';
+	import { handleHotkey, konamiTriggered } from '#lib/actions/hotkeys.js';
+	import { snapshotScramble } from '#lib/actions/scramble.js';
+	import Footer from '#lib/components/Footer.svelte';
+	import HotkeyHelp from '#lib/components/HotkeyHelp.svelte';
+	import Background from '#lib/components/Background.svelte';
 	import '../app.css';
 	import Nav from './Nav.svelte';
-	import { SITE_AUTHOR } from '$lib/site';
-	import { noteTransition, staggerNoteWords, tagTransition } from '$lib/noteTransition.svelte';
+	import { SITE_AUTHOR } from '#lib/site.js';
+	import { noteTransition, staggerNoteWords, tagTransition } from '#lib/noteTransition.svelte.js';
 
 	let { children } = $props();
 
@@ -86,7 +86,7 @@
 	<title>{SITE_AUTHOR}</title>
 	<link rel="me" href="https://mastodon.social/@Avra" />
 	<meta name="fediverse:creator" content="@Avra@mastodon.social" />
-	<link rel="alternate" type="application/rss+xml" title="avra.dev" href={resolve('/rss.xml')} />
+	<link rel="alternate" type="application/rss+xml" title="avra.dev" href={resolve('rss.xml')} />
 </svelte:head>
 
 <svelte:window bind:scrollY bind:innerHeight onkeydown={(e) => handleHotkey(e, toggleTheme)} />

@@ -3,7 +3,7 @@
 	import Repeat2 from '@lucide/svelte/icons/repeat-2';
 	import Heart from '@lucide/svelte/icons/heart';
 	import Quote from '@lucide/svelte/icons/message-square-quote';
-	import { statPath, type ThreadViewPost } from '$lib/bsky';
+	import { statPath, type ThreadViewPost } from '#lib/bsky.js';
 
 	let { post }: { post: ThreadViewPost['post'] } = $props();
 

@@ -1,7 +1,7 @@
 <script lang="ts">
-	import Meta from '$lib/components/Meta.svelte';
-	import NoteList from '$lib/components/NoteList.svelte';
-	import { tagSlug } from '$lib/posts';
+	import Meta from '#lib/components/Meta.svelte';
+	import NoteList from '#lib/components/NoteList.svelte';
+	import { tagSlug } from '#lib/posts.js';
 	let { data } = $props();
 </script>
 

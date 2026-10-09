@@ -6,7 +6,7 @@
 		relativeTime,
 		sortByCreatedAt,
 		type ThreadViewPost
-	} from '$lib/bsky';
+	} from '#lib/bsky.js';
 	import PostStats from './PostStats.svelte';
 
 	let { reply, index }: { reply: ThreadViewPost; index: number } = $props();

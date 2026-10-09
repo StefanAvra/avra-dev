@@ -1,5 +1,5 @@
-import { getPosts, getTags, tagSlug } from '$lib/posts';
-import { SITE_URL } from '$lib/site';
+import { getPosts, getTags, tagSlug } from '#lib/posts.js';
+import { SITE_URL } from '#lib/site.js';
 
 export const prerender = true;
 

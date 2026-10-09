@@ -1,6 +1,6 @@
 <script lang="ts">
-	import EmailTooltip from '$lib/components/EmailTooltip.svelte';
-	import Meta from '$lib/components/Meta.svelte';
+	import EmailTooltip from '#lib/components/EmailTooltip.svelte';
+	import Meta from '#lib/components/Meta.svelte';
 </script>
 
 <!-- noindex keeps the imprint's street address out of search results. -->

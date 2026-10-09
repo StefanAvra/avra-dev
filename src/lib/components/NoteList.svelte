@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import NoteTitle from '$lib/components/NoteTitle.svelte';
-	import { noteTransition } from '$lib/noteTransition.svelte';
-	import type { PostMeta } from '$lib/posts';
+	import NoteTitle from '#lib/components/NoteTitle.svelte';
+	import { noteTransition } from '#lib/noteTransition.svelte.js';
+	import type { PostMeta } from '#lib/posts.js';
 
 	let { posts }: { posts: PostMeta[] } = $props();
 
@@ -19,7 +19,7 @@
 		>
 			<a
 				class="group relative flex justify-between gap-[2ch] py-[0.5lh] transition hover:text-fg"
-				href={resolve(`/notes/${post.slug}`)}
+				href={resolve(`notes/${post.slug}`)}
 			>
 				<span><NoteTitle slug={post.slug} title={post.title} /></span>
 				<span class="shrink-0 text-sm text-muted"

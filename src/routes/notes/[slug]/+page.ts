@@ -1,4 +1,4 @@
-import { noteStats } from '$lib/noteStats';
+import { noteStats } from '#lib/noteStats.js';
 import type { EntryGenerator, PageLoad } from './$types';
 
 export const prerender = true;

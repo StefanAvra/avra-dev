@@ -1,11 +1,11 @@
 <script lang="ts">
 	import type { Component } from 'svelte';
-	import Comments from '$lib/components/Comments.svelte';
-	import Meta from '$lib/components/Meta.svelte';
-	import NoteLength from '$lib/components/NoteLength.svelte';
-	import TagLinks from '$lib/components/TagLinks.svelte';
-	import NoteTitle from '$lib/components/NoteTitle.svelte';
-	import { SITE_DESCRIPTION } from '$lib/site';
+	import Comments from '#lib/components/Comments.svelte';
+	import Meta from '#lib/components/Meta.svelte';
+	import NoteLength from '#lib/components/NoteLength.svelte';
+	import TagLinks from '#lib/components/TagLinks.svelte';
+	import NoteTitle from '#lib/components/NoteTitle.svelte';
+	import { SITE_DESCRIPTION } from '#lib/site.js';
 	let { data } = $props();
 	let Content = $derived(data.content as unknown as Component);
 </script>
@@ -81,7 +81,7 @@
 	.prose :global(a:not(.heading-anchor):hover) {
 		text-decoration-color: currentColor;
 	}
-	/* Lucide external-link icon appended by rehype-external-links (svelte.config.js) */
+	/* Lucide external-link icon appended by rehype-external-links (vite.config.ts) */
 	.prose :global(.external-link-icon svg) {
 		display: inline-block;
 		width: 0.7em;

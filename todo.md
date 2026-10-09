@@ -66,7 +66,7 @@ Notes for later:
 - ~~sitemap.xml + robots.txt~~ — done: sitemap lists everything but /privacy; robots.txt blocks
   AI training crawlers only, with a `Content-Signal` line and the `Sitemap:` pointer.
 - 404: there's no `+error.svelte`, and adapter-static's `fallback` is undefined, so GitHub Pages shows
-  its own 404. Add `src/routes/+error.svelte` + `fallback: '404.html'` in `svelte.config.js`.
+  its own 404. Add `src/routes/+error.svelte` + `fallback: '404.html'` in `vite.config.ts`.
 - optional: `static/.well-known/security.txt` (Contact + Expires).
 - skipped on purpose: llms.txt (no major AI provider has said it uses it).
 

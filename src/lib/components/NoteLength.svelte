@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { NoteStats } from '$lib/noteStats';
+	import type { NoteStats } from '#lib/noteStats.js';
 
 	let { stats }: { stats: NoteStats } = $props();
 

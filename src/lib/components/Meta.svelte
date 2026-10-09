@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { SITE_AUTHOR, SITE_NAME, SITE_URL } from '$lib/site';
+	import { SITE_AUTHOR, SITE_NAME, SITE_URL } from '#lib/site.js';
 
 	let {
 		title,

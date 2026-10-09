@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
-	import Breadcrumb from '$lib/components/Breadcrumb.svelte';
+	import Breadcrumb from '#lib/components/Breadcrumb.svelte';
 	import { Moon, Sun } from '@lucide/svelte';
 
 	const { toggleTheme, isDark }: { toggleTheme: () => void; isDark: boolean } = $props();
@@ -18,7 +18,7 @@
 		>
 		<a
 			class="bracketed relative no-underline"
-			href={resolve('/notes')}
+			href={resolve('notes')}
 			aria-current={page.url.pathname.startsWith('/notes') ? 'page' : undefined}>notes</a
 		>
 		<!--

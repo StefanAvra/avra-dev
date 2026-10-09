@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { showHelp } from '$lib/actions/hotkeys';
+	import { showHelp } from '#lib/actions/hotkeys.js';
 
 	function close() {
 		showHelp.set(false);

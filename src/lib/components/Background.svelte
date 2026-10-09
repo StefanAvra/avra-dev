@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { untrack } from 'svelte';
-	import { createNoise3D } from '$lib/noise';
+	import { createNoise3D } from '#lib/noise.js';
 
 	// idx 0/1/2 map to full / dark-shade / medium-shade — coverage of the dither.
 	const SHADE_COVERAGE = [1, 0.75, 0.5];

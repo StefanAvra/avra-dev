@@ -1,7 +1,7 @@
 <script lang="ts">
-	import Meta from '$lib/components/Meta.svelte';
-	import EmailTooltip from '$lib/components/EmailTooltip.svelte';
-	import GithubIcon from '$lib/components/GithubIcon.svelte';
+	import Meta from '#lib/components/Meta.svelte';
+	import EmailTooltip from '#lib/components/EmailTooltip.svelte';
+	import GithubIcon from '#lib/components/GithubIcon.svelte';
 
 	const timezone = new Intl.DateTimeFormat('en', {
 		timeZone: 'Europe/Berlin',

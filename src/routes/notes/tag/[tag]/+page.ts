@@ -1,5 +1,5 @@
 import { error } from '@sveltejs/kit';
-import { getPosts, getTags, tagSlug } from '$lib/posts';
+import { getPosts, getTags, tagSlug } from '#lib/posts.js';
 import type { EntryGenerator, PageLoad } from './$types';
 
 export const prerender = true;

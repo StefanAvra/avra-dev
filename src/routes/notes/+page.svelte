@@ -1,8 +1,8 @@
 <script lang="ts">
-	import Meta from '$lib/components/Meta.svelte';
-	import NoteList from '$lib/components/NoteList.svelte';
-	import { SITE_DESCRIPTION } from '$lib/site';
-	import TagLinks from '$lib/components/TagLinks.svelte';
+	import Meta from '#lib/components/Meta.svelte';
+	import NoteList from '#lib/components/NoteList.svelte';
+	import { SITE_DESCRIPTION } from '#lib/site.js';
+	import TagLinks from '#lib/components/TagLinks.svelte';
 	let { data } = $props();
 </script>
 

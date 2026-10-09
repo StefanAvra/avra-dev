@@ -1,5 +1,5 @@
-import { getPosts } from '$lib/posts';
-import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '$lib/site';
+import { getPosts } from '#lib/posts.js';
+import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from '#lib/site.js';
 
 export const prerender = true;
 

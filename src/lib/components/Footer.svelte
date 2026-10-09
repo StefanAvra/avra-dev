@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { keyboardActive, toggleHelp } from '$lib/actions/hotkeys';
+	import { keyboardActive, toggleHelp } from '#lib/actions/hotkeys.js';
 	import { resolve } from '$app/paths';
 	import { Rss } from '@lucide/svelte';
 </script>
@@ -12,10 +12,10 @@
 	data-keyboard-active={$keyboardActive || undefined}
 >
 	<div class="flex items-center gap-[2ch]">
-		<a class="bracketed no-underline" href={resolve('/privacy')}>imprint &amp; privacy</a>
+		<a class="bracketed no-underline" href={resolve('privacy')}>imprint &amp; privacy</a>
 		<a
 			class="transition-colors hover:text-accent"
-			href={resolve('/rss.xml')}
+			href={resolve('rss.xml')}
 			data-sveltekit-reload
 			aria-label="RSS feed"
 		>

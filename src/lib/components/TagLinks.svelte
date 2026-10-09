@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import { tagTransition } from '$lib/noteTransition.svelte';
-	import { tagSlug } from '$lib/posts';
+	import { tagTransition } from '#lib/noteTransition.svelte.js';
+	import { tagSlug } from '#lib/posts.js';
 
 	let { tags }: { tags: string[] } = $props();
 </script>

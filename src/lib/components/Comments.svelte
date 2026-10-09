@@ -8,7 +8,7 @@
 		postPath,
 		sortByCreatedAt,
 		type ThreadViewPost
-	} from '$lib/bsky';
+	} from '#lib/bsky.js';
 
 	let { uri }: { uri: string } = $props();
 

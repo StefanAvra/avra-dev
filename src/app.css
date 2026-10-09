@@ -48,7 +48,7 @@
 	--accent-light: #ff6f00;
 	--accent-dark: #33cc66;
 
-	/* Shiki css-variables theme (see svelte.config.js), mapped onto the palette */
+	/* Shiki css-variables theme (see vite.config.ts), mapped onto the palette */
 	--shiki-foreground: var(--color-fg);
 	--shiki-background: var(--color-subtle);
 	--shiki-token-keyword: var(--color-red);

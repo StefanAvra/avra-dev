@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { scramble } from '$lib/actions/scramble';
+	import { scramble } from '#lib/actions/scramble.js';
 	import { page } from '$app/state';
 </script>
 

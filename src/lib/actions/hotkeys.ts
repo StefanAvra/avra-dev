@@ -47,7 +47,7 @@ export function handleHotkey(event: KeyboardEvent, toggleTheme: () => void) {
 			break;
 		case 'n':
 			event.preventDefault();
-			goto(resolve('/notes'));
+			goto(resolve('notes'));
 			break;
 		case 't':
 			event.preventDefault();

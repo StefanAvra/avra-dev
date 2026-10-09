@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Meta from '$lib/components/Meta.svelte';
+	import Meta from '#lib/components/Meta.svelte';
 </script>
 
 <Meta title="Projects" description="Projects by Stefan Avramescu." />
