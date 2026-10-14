@@ -66,6 +66,17 @@
 	color: #ff6f00;
 }
 
+/* The toggle's override (data-theme is set in app.html and +layout.svelte). It has
+   to be a stylesheet rule, not an inline style: the production build lowers
+   light-dark() to --lightningcss-* vars, which only follow color-scheme
+   declarations it can see in CSS. */
+:root[data-theme='light'] {
+	color-scheme: light;
+}
+:root[data-theme='dark'] {
+	color-scheme: dark;
+}
+
 html {
 	/* keep heading anchors clear of the fixed nav */
 	scroll-padding-top: calc(var(--spacing-header) + 1lh);

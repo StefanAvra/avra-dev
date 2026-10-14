@@ -66,7 +66,6 @@
 	function toggleTheme() {
 		isDark = !isDark;
 		const theme = isDark ? 'dark' : 'light';
-		document.documentElement.style.colorScheme = theme;
 		document.documentElement.dataset.theme = theme;
 		document.documentElement.classList.toggle('dark', isDark);
 		localStorage.setItem('theme', theme);

@@ -13,7 +13,6 @@
 				if (!isSafari) document.documentElement.classList.add('not-safari');
 				var theme = localStorage.getItem('theme');
 				if (theme) {
-					document.documentElement.style.colorScheme = theme;
 					document.documentElement.dataset.theme = theme;
 				}
 			})();
