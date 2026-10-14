@@ -9,8 +9,10 @@
 <Meta title="Notes" description={SITE_DESCRIPTION} />
 
 <h1>Notes</h1>
-{#if data.tags.length}
-	<p class="m-0 -mt-[0.5lh] mb-[1lh] text-sm">
+{#if data.tags.length > 3}
+	<!-- no need to show tags for now. when there are more posts/tags we can come up with a nicer way to
+	show them -->
+	<p class="m-0 mt-[-0.5lh] mb-[1lh] text-sm">
 		<TagLinks tags={data.tags.map((t) => t.tag)} />
 	</p>
 {/if}
