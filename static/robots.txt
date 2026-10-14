@@ -4,8 +4,7 @@ User-agent: *
 Content-Signal: search=yes, ai-input=yes, ai-train=no
 Allow: /
 
-# AI training crawlers. This states a preference, nothing more: notes are also
-# published to the atproto firehose, which robots.txt doesn't cover.
+# AI training crawlers
 User-agent: GPTBot
 User-agent: ClaudeBot
 User-agent: CCBot
